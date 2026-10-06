@@ -1,0 +1,11 @@
+.vp{position:relative;background:#000;line-height:0}
+.vp video{width:100%;height:auto;max-height:80vh;display:block;cursor:pointer}
+.vp-play{position:absolute;inset:0 0 14px 0;display:grid;place-items:center;background:rgba(8,10,50,.2);border:0;transition:.3s}
+.vp-play span{width:76px;height:76px;border-radius:50%;background:rgba(14,18,80,.78);border:2px solid var(--gold);color:var(--gold);display:grid;place-items:center;font-size:1.9rem;backdrop-filter:blur(6px);transition:.3s}
+.vp-play span svg{margin-left:4px}.vp-play.is-playing span svg{margin-left:0}
+.vp-play:hover span{background:var(--gold);color:var(--navy2);transform:scale(1.1)}
+.vp-play.is-playing{opacity:0;background:transparent}.vp:hover .vp-play.is-playing{opacity:1}
+@media(hover:none){.vp-play.is-playing{opacity:0}}
+.vp-mute{position:absolute;right:12px;bottom:26px;width:38px;height:38px;border-radius:50%;border:1px solid var(--gold);background:rgba(14,18,80,.85);color:var(--gold);display:grid;place-items:center;font-size:1rem}
+.vp-bar{position:absolute;left:0;right:0;bottom:0;height:12px;background:rgba(255,255,255,.18);cursor:pointer}
+.vp-bar i{display:block;height:100%;width:0;background:var(--gold)}

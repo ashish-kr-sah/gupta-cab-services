@@ -1,0 +1,48 @@
+.admin-title {
+  font-size: 1.9rem;
+  margin-bottom: 22px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+/* =========================
+   TABLE CONTAINER
+========================= */
+
+.bookings-page {
+  width: 100%;
+  min-width: 0;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 860px) {
+  .admin-title {
+    font-size: 1.7rem;
+    margin-bottom: 18px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .admin-title {
+    font-size: 1.5rem;
+    margin-bottom: 16px;
+  }
+}
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 400px) {
+  .admin-title {
+    font-size: 1.35rem;
+    margin-bottom: 14px;
+  }
+}

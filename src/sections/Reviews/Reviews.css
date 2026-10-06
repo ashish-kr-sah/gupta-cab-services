@@ -1,0 +1,5 @@
+.quote{position:relative}.quote:before{content:"“";position:absolute;top:-4px;right:22px;font-size:6rem;color:var(--gold);opacity:.2;font-family:serif}
+.stars{color:var(--gold);margin-bottom:10px}
+.who{display:flex;gap:12px;align-items:center;margin-top:18px}
+.who i{width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--navy2);display:grid;place-items:center;font-weight:700;font-style:normal}
+.who small{color:var(--muted)}

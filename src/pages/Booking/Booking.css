@@ -1,0 +1,141 @@
+/* =========================================================
+   BOOKING PAGE
+========================================================= */
+
+.booking-wrap {
+  max-width: 820px;
+}
+
+
+/* =========================================================
+   SUBMIT BUTTON
+========================================================= */
+
+.submit {
+  width: 100%;
+  justify-content: center;
+  gap: 9px;
+}
+
+
+/* =========================================================
+   INPUT PLACEHOLDERS
+========================================================= */
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+  opacity: 1;
+  font-size: 0.84rem;
+}
+
+
+/* =========================================================
+   FOCUS PLACEHOLDER
+========================================================= */
+
+.form input:focus::placeholder,
+.form textarea:focus::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+.form textarea {
+  min-height: 145px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   SELECT
+========================================================= */
+
+.form select {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+
+.form select:valid {
+  color: inherit;
+}
+
+
+.form select option {
+  background: #101c2f;
+  color: #ffffff;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .booking-wrap {
+    max-width: 100%;
+  }
+
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.68);
+    font-size: 0.78rem;
+  }
+
+
+  .form textarea {
+    min-height: 125px;
+  }
+
+
+  .submit {
+    min-height: 48px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.70);
+    font-size: 0.73rem;
+  }
+
+
+  .form textarea {
+    min-height: 115px;
+  }
+
+
+  .submit {
+    min-height: 46px;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 340px) {
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.72);
+    font-size: 0.68rem;
+  }
+
+}

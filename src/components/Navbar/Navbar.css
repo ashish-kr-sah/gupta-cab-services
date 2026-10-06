@@ -1,0 +1,1343 @@
+/* =========================================================
+   GUPTA CAB SERVICE - NAVBAR
+========================================================= */
+
+
+/* =========================================================
+   MAIN NAVBAR
+========================================================= */
+
+.nav {
+  position: fixed;
+
+  inset: 0 0 auto 0;
+
+  z-index: 1000;
+
+  width: 100%;
+
+  padding: 14px 0;
+
+  transition:
+    background 0.35s ease,
+    padding 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+
+/* =========================================================
+   SCROLLED NAVBAR
+========================================================= */
+
+.nav.solid {
+  background: rgba(14, 18, 80, 0.94);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  padding: 8px 0;
+
+  box-shadow:
+    0 6px 30px rgba(0, 0, 0, 0.35);
+
+  border-bottom:
+    1px solid var(--line);
+}
+
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.nav .container {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+
+/* =========================================================
+   BRAND
+========================================================= */
+
+.brand {
+  display: flex;
+
+  align-items: center;
+
+  gap: 12px;
+
+  text-decoration: none;
+
+  flex-shrink: 0;
+}
+
+
+.brand img {
+  width: 58px;
+
+  height: 58px;
+
+  object-fit: cover;
+
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 0 2px var(--gold),
+    0 0 22px rgba(255, 189, 63, 0.4);
+
+  transition:
+    transform 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+
+.brand:hover img {
+  transform: rotate(360deg);
+}
+
+
+.brand b {
+  display: block;
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 1.2rem;
+
+  line-height: 1.1;
+
+  color: var(--gold);
+}
+
+
+.brand small {
+  display: block;
+
+  margin-top: 3px;
+
+  font-size: 0.72rem;
+
+  letter-spacing: 0.14em;
+
+  color: var(--muted);
+
+  text-transform: uppercase;
+}
+
+
+/* =========================================================
+   DESKTOP NAVIGATION
+========================================================= */
+
+.links {
+  display: flex;
+
+  align-items: center;
+
+  gap: 6px;
+
+  list-style: none;
+
+  margin: 0;
+
+  padding: 0;
+}
+
+
+.links li {
+  margin: 0;
+
+  padding: 0;
+}
+
+
+.links a {
+  display: block;
+
+  position: relative;
+
+  padding: 8px 15px;
+
+  border-radius: 30px;
+
+  font-size: 0.92rem;
+
+  text-decoration: none;
+
+  white-space: nowrap;
+
+  transition:
+    color 0.3s ease,
+    background 0.3s ease;
+}
+
+
+.links a:hover,
+.links a.active {
+  color: var(--gold);
+}
+
+
+.links a.active::after {
+  content: "";
+
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 2px;
+
+  width: 18px;
+
+  height: 2px;
+
+  background: var(--gold);
+
+  border-radius: 2px;
+
+  transform: translateX(-50%);
+}
+
+
+/* =========================================================
+   DESKTOP BOOK BUTTON
+========================================================= */
+
+.links .book {
+  padding: 10px 24px;
+
+  color: var(--navy2);
+}
+
+
+.links .book:hover {
+  color: var(--navy2);
+}
+
+
+/* =========================================================
+   MOBILE BURGER
+========================================================= */
+
+.burger {
+  display: none;
+
+  width: 44px;
+
+  height: 44px;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 0;
+
+  margin: 0;
+
+  background: transparent;
+
+  border: 0;
+
+  color: var(--gold);
+
+  font-size: 2rem;
+
+  line-height: 1;
+
+  cursor: pointer;
+
+  position: relative;
+
+  z-index: 1400;
+
+  flex-shrink: 0;
+
+  transition:
+    transform 0.25s ease,
+    color 0.25s ease;
+}
+
+
+.burger:hover {
+  color: #fff;
+}
+
+
+.burger.is-open {
+  transform: rotate(0deg);
+}
+
+
+/* =========================================================
+   MOBILE MENU
+   HIDDEN BY DEFAULT
+========================================================= */
+
+.mobile-menu {
+  display: none;
+}
+
+
+.menu-overlay {
+  display: none;
+}
+
+
+/* =========================================================
+   TABLET / MOBILE
+========================================================= */
+
+@media (max-width: 940px) {
+
+  /* -------------------------------------------------------
+     HIDE DESKTOP NAV
+  ------------------------------------------------------- */
+
+  .links {
+    display: none;
+  }
+
+
+  /* -------------------------------------------------------
+     SHOW BURGER
+  ------------------------------------------------------- */
+
+  .burger {
+    display: flex;
+  }
+
+
+  /* -------------------------------------------------------
+     DARK OVERLAY
+  ------------------------------------------------------- */
+
+  .menu-overlay {
+    display: block;
+
+    position: fixed;
+
+    inset: 0;
+
+    z-index: 1100;
+
+    background:
+      rgba(3, 5, 24, 0.72);
+
+    opacity: 0;
+
+    visibility: hidden;
+
+    pointer-events: none;
+
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+
+    transition:
+      opacity 0.35s ease,
+      visibility 0.35s ease;
+  }
+
+
+  .menu-overlay.show {
+    opacity: 1;
+
+    visibility: visible;
+
+    pointer-events: auto;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE MENU PANEL
+  ------------------------------------------------------- */
+
+  .mobile-menu {
+    display: flex;
+
+    position: fixed;
+
+    top: 0;
+
+    right: 0;
+
+    z-index: 1200;
+
+    width: min(390px, 88vw);
+
+    height: 100vh;
+
+    height: 100dvh;
+
+    box-sizing: border-box;
+
+    flex-direction: column;
+
+    padding:
+      38px
+      28px
+      24px;
+
+    background:
+      linear-gradient(
+        145deg,
+        #11175f 0%,
+        #0d1251 48%,
+        #090d3e 100%
+      );
+
+    border-left:
+      1px solid
+      rgba(255, 189, 63, 0.22);
+
+    border-radius:
+      28px
+      0
+      0
+      28px;
+
+    box-shadow:
+      -25px 0 70px rgba(0, 0, 0, 0.50);
+
+    transform: translateX(105%);
+
+    visibility: hidden;
+
+    transition:
+      transform 0.42s cubic-bezier(
+        0.22,
+        1,
+        0.36,
+        1
+      ),
+      visibility 0.42s ease;
+
+    overflow-y: auto;
+
+    overflow-x: hidden;
+
+    -webkit-overflow-scrolling: touch;
+  }
+
+
+  .mobile-menu.open {
+    transform: translateX(0);
+
+    visibility: visible;
+  }
+
+
+  /* -------------------------------------------------------
+     SUBTLE BACKGROUND GLOW
+  ------------------------------------------------------- */
+
+  .mobile-menu::before {
+    content: "";
+
+    position: absolute;
+
+    top: -120px;
+
+    right: -100px;
+
+    width: 280px;
+
+    height: 280px;
+
+    border-radius: 50%;
+
+    background:
+      rgba(255, 189, 63, 0.08);
+
+    filter: blur(20px);
+
+    pointer-events: none;
+  }
+
+
+  .mobile-menu::after {
+    content: "";
+
+    position: absolute;
+
+    bottom: -100px;
+
+    left: -100px;
+
+    width: 250px;
+
+    height: 250px;
+
+    border-radius: 50%;
+
+    background:
+      rgba(40, 70, 200, 0.12);
+
+    filter: blur(25px);
+
+    pointer-events: none;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE MENU TOP
+  ------------------------------------------------------- */
+
+  .mobile-menu-top {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding-top: 8px;
+
+    padding-right: 45px;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE MENU BRAND
+  ------------------------------------------------------- */
+
+  .mobile-menu-brand {
+    display: flex;
+
+    align-items: center;
+
+    gap: 11px;
+
+    min-width: 0;
+  }
+
+
+  .mobile-menu-brand img {
+    width: 45px;
+
+    height: 45px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 50%;
+
+    border:
+      1.5px solid
+      var(--gold);
+
+    box-shadow:
+      0 0 18px
+      rgba(255, 189, 63, 0.20);
+  }
+
+
+  .mobile-menu-brand div {
+    display: flex;
+
+    flex-direction: column;
+
+    min-width: 0;
+  }
+
+
+  .mobile-menu-brand strong {
+    color: var(--gold);
+
+    font-family:
+      "Playfair Display",
+      serif;
+
+    font-size: 0.95rem;
+
+    line-height: 1.1;
+
+    white-space: nowrap;
+
+    overflow: hidden;
+
+    text-overflow: ellipsis;
+  }
+
+
+  .mobile-menu-brand span {
+    margin-top: 4px;
+
+    color: rgba(255, 255, 255, 0.55);
+
+    font-size: 0.55rem;
+
+    letter-spacing: 0.11em;
+
+    text-transform: uppercase;
+
+    white-space: nowrap;
+  }
+
+
+  /* -------------------------------------------------------
+     MENU LABEL
+  ------------------------------------------------------- */
+
+  .mobile-menu-label {
+    position: absolute;
+
+    top: 2px;
+
+    right: 0;
+
+    color:
+      rgba(255, 255, 255, 0.42);
+
+    font-size: 0.55rem;
+
+    letter-spacing: 0.18em;
+
+    writing-mode:
+      vertical-rl;
+  }
+
+
+  /* -------------------------------------------------------
+     GOLD DIVIDER
+  ------------------------------------------------------- */
+
+  .mobile-menu-line {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    height: 1px;
+
+    margin-top: 28px;
+
+    background:
+      linear-gradient(
+        90deg,
+        var(--gold),
+        rgba(255, 189, 63, 0.08)
+      );
+  }
+
+
+  /* -------------------------------------------------------
+     NAVIGATION AREA
+  ------------------------------------------------------- */
+
+  .mobile-navigation {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    width: 100%;
+
+    margin-top: 24px;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE NAV LINK
+  ------------------------------------------------------- */
+
+  .mobile-nav-link {
+    position: relative;
+
+    display: flex;
+
+    align-items: center;
+
+    width: 100%;
+
+    min-height: 51px;
+
+    box-sizing: border-box;
+
+    padding:
+      7px
+      10px
+      7px
+      4px;
+
+    border-radius: 13px;
+
+    text-decoration: none;
+
+    color:
+      rgba(255, 255, 255, 0.86);
+
+    transition:
+      background 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s ease;
+  }
+
+
+  .mobile-nav-link:hover {
+    background:
+      rgba(255, 255, 255, 0.055);
+
+    color: #fff;
+
+    transform: translateX(3px);
+  }
+
+
+  /* -------------------------------------------------------
+     NUMBER
+  ------------------------------------------------------- */
+
+  .mobile-nav-number {
+    width: 38px;
+
+    flex-shrink: 0;
+
+    color:
+      rgba(255, 189, 63, 0.55);
+
+    font-size: 0.67rem;
+
+    letter-spacing: 0.08em;
+  }
+
+
+  /* -------------------------------------------------------
+     LINK TEXT
+  ------------------------------------------------------- */
+
+  .mobile-nav-text {
+    flex: 1;
+
+    font-size: 1rem;
+
+    font-weight: 500;
+
+    letter-spacing: 0.01em;
+  }
+
+
+  /* -------------------------------------------------------
+     ARROW
+  ------------------------------------------------------- */
+
+  .mobile-nav-arrow {
+    width: 18px;
+
+    height: 18px;
+
+    flex-shrink: 0;
+
+    color:
+      rgba(255, 255, 255, 0.25);
+
+    transition:
+      transform 0.25s ease,
+      color 0.25s ease;
+  }
+
+
+  .mobile-nav-link:hover .mobile-nav-arrow {
+    color: var(--gold);
+
+    transform: translateX(3px);
+  }
+
+
+  /* -------------------------------------------------------
+     ACTIVE LINK
+  ------------------------------------------------------- */
+
+  .mobile-nav-link.active {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 189, 63, 0.14),
+        rgba(255, 189, 63, 0.035)
+      );
+
+    color: var(--gold);
+
+    box-shadow:
+      inset 3px 0 0 var(--gold);
+  }
+
+
+  .mobile-nav-link.active .mobile-nav-number {
+    color: var(--gold);
+  }
+
+
+  .mobile-nav-link.active .mobile-nav-arrow {
+    color: var(--gold);
+
+    transform: translateX(3px);
+  }
+
+
+  /* -------------------------------------------------------
+     BOOKING SECTION
+  ------------------------------------------------------- */
+
+  .mobile-booking {
+    position: relative;
+
+    z-index: 2;
+
+    width: 100%;
+
+    margin-top: auto;
+
+    padding-top: 22px;
+  }
+
+
+  .mobile-book-btn {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    width: 100%;
+
+    min-height: 54px;
+
+    box-sizing: border-box;
+
+    padding:
+      0
+      18px
+      0
+      21px;
+
+    border-radius: 14px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #ffca55,
+        var(--gold)
+      );
+
+    color: var(--navy2);
+
+    text-decoration: none;
+
+    font-size: 0.92rem;
+
+    font-weight: 700;
+
+    box-shadow:
+      0 10px 30px
+      rgba(255, 189, 63, 0.18);
+
+    transition:
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+
+  .mobile-book-btn:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+      0 14px 35px
+      rgba(255, 189, 63, 0.28);
+  }
+
+
+  .mobile-book-btn svg {
+    width: 20px;
+
+    height: 20px;
+
+    transition:
+      transform 0.25s ease;
+  }
+
+
+  .mobile-book-btn:hover svg {
+    transform: translateX(4px);
+  }
+
+
+  /* -------------------------------------------------------
+     FOOTER
+  ------------------------------------------------------- */
+
+  .mobile-menu-footer {
+    position: relative;
+
+    z-index: 2;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    padding-top: 17px;
+
+    color:
+      rgba(255, 255, 255, 0.35);
+
+    font-size: 0.58rem;
+
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+  }
+
+
+  .footer-dot {
+    color: var(--gold);
+
+    font-size: 0.7rem;
+  }
+}
+
+
+/* =========================================================
+   MOBILE <= 600px
+========================================================= */
+
+@media (max-width: 600px) {
+
+  .nav {
+    padding: 10px 0;
+  }
+
+
+  .nav.solid {
+    padding: 7px 0;
+  }
+
+
+  .nav .container {
+    width: 100%;
+
+    padding-left: 15px;
+
+    padding-right: 15px;
+
+    box-sizing: border-box;
+  }
+
+
+  /* -------------------------------------------------------
+     BRAND
+  ------------------------------------------------------- */
+
+  .brand {
+    gap: 9px;
+
+    min-width: 0;
+  }
+
+
+  .brand img {
+    width: 48px;
+
+    height: 48px;
+  }
+
+
+  .brand b {
+    font-size: 1rem;
+  }
+
+
+  .brand small {
+    font-size: 0.58rem;
+
+    letter-spacing: 0.1em;
+  }
+
+
+  /* -------------------------------------------------------
+     BURGER
+  ------------------------------------------------------- */
+
+  .burger {
+    width: 43px;
+
+    height: 43px;
+
+    font-size: 1.9rem;
+  }
+
+
+  /* -------------------------------------------------------
+     MOBILE PANEL
+  ------------------------------------------------------- */
+
+  .mobile-menu {
+    width: 88vw;
+
+    max-width: 390px;
+
+    padding:
+      34px
+      24px
+      20px;
+
+    border-radius:
+      24px
+      0
+      0
+      24px;
+  }
+
+
+  .mobile-menu-top {
+    padding-right: 42px;
+  }
+
+
+  .mobile-menu-brand img {
+    width: 42px;
+
+    height: 42px;
+  }
+
+
+  .mobile-menu-brand strong {
+    font-size: 0.88rem;
+  }
+
+
+  .mobile-menu-brand span {
+    font-size: 0.49rem;
+
+    letter-spacing: 0.09em;
+  }
+
+
+  .mobile-menu-line {
+    margin-top: 23px;
+  }
+
+
+  .mobile-navigation {
+    margin-top: 19px;
+
+    gap: 2px;
+  }
+
+
+  .mobile-nav-link {
+    min-height: 48px;
+
+    padding:
+      6px
+      8px
+      6px
+      3px;
+  }
+
+
+  .mobile-nav-number {
+    width: 34px;
+
+    font-size: 0.62rem;
+  }
+
+
+  .mobile-nav-text {
+    font-size: 0.96rem;
+  }
+
+
+  .mobile-nav-arrow {
+    width: 17px;
+
+    height: 17px;
+  }
+
+
+  .mobile-booking {
+    padding-top: 18px;
+  }
+
+
+  .mobile-book-btn {
+    min-height: 51px;
+
+    font-size: 0.88rem;
+  }
+
+
+  .mobile-menu-footer {
+    font-size: 0.52rem;
+
+    padding-top: 14px;
+  }
+}
+
+
+/* =========================================================
+   SMALL PHONES <= 400px
+========================================================= */
+
+@media (max-width: 400px) {
+
+  .nav .container {
+    padding-left: 12px;
+
+    padding-right: 12px;
+  }
+
+
+  .brand {
+    gap: 7px;
+  }
+
+
+  .brand img {
+    width: 44px;
+
+    height: 44px;
+  }
+
+
+  .brand b {
+    font-size: 0.92rem;
+  }
+
+
+  .brand small {
+    font-size: 0.50rem;
+
+    letter-spacing: 0.08em;
+  }
+
+
+  .burger {
+    width: 41px;
+
+    height: 41px;
+
+    font-size: 1.75rem;
+  }
+
+
+  .mobile-menu {
+    width: 91vw;
+
+    padding:
+      30px
+      20px
+      17px;
+
+    border-radius:
+      22px
+      0
+      0
+      22px;
+  }
+
+
+  .mobile-menu-brand img {
+    width: 39px;
+
+    height: 39px;
+  }
+
+
+  .mobile-menu-brand strong {
+    font-size: 0.82rem;
+  }
+
+
+  .mobile-menu-brand span {
+    font-size: 0.44rem;
+  }
+
+
+  .mobile-menu-top {
+    padding-right: 38px;
+  }
+
+
+  .mobile-menu-label {
+    font-size: 0.48rem;
+  }
+
+
+  .mobile-menu-line {
+    margin-top: 20px;
+  }
+
+
+  .mobile-navigation {
+    margin-top: 15px;
+
+    gap: 1px;
+  }
+
+
+  .mobile-nav-link {
+    min-height: 45px;
+  }
+
+
+  .mobile-nav-number {
+    width: 31px;
+
+    font-size: 0.58rem;
+  }
+
+
+  .mobile-nav-text {
+    font-size: 0.91rem;
+  }
+
+
+  .mobile-nav-arrow {
+    width: 16px;
+
+    height: 16px;
+  }
+
+
+  .mobile-booking {
+    padding-top: 13px;
+  }
+
+
+  .mobile-book-btn {
+    min-height: 48px;
+
+    padding-left: 17px;
+
+    padding-right: 15px;
+
+    font-size: 0.83rem;
+  }
+
+
+  .mobile-menu-footer {
+    font-size: 0.47rem;
+
+    padding-top: 10px;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES <= 340px
+========================================================= */
+
+@media (max-width: 340px) {
+
+  .brand img {
+    width: 40px;
+
+    height: 40px;
+  }
+
+
+  .brand b {
+    font-size: 0.85rem;
+  }
+
+
+  .brand small {
+    font-size: 0.43rem;
+  }
+
+
+  .burger {
+    width: 39px;
+
+    height: 39px;
+
+    font-size: 1.65rem;
+  }
+
+
+  .mobile-menu {
+    width: 93vw;
+
+    padding:
+      26px
+      17px
+      15px;
+  }
+
+
+  .mobile-menu-brand img {
+    width: 36px;
+
+    height: 36px;
+  }
+
+
+  .mobile-menu-brand strong {
+    font-size: 0.76rem;
+  }
+
+
+  .mobile-menu-brand span {
+    font-size: 0.40rem;
+  }
+
+
+  .mobile-menu-top {
+    padding-right: 34px;
+  }
+
+
+  .mobile-navigation {
+    margin-top: 12px;
+  }
+
+
+  .mobile-nav-link {
+    min-height: 42px;
+  }
+
+
+  .mobile-nav-number {
+    width: 28px;
+
+    font-size: 0.54rem;
+  }
+
+
+  .mobile-nav-text {
+    font-size: 0.86rem;
+  }
+
+
+  .mobile-nav-arrow {
+    width: 15px;
+
+    height: 15px;
+  }
+
+
+  .mobile-book-btn {
+    min-height: 45px;
+
+    font-size: 0.78rem;
+  }
+}

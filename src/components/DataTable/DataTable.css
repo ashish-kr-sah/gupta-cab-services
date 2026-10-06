@@ -1,0 +1,171 @@
+/* =========================================
+   DATA TABLE
+========================================= */
+
+.tbl {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+
+  -webkit-overflow-scrolling: touch;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.tbl table {
+  width: 100%;
+  border-collapse: collapse;
+
+  /* Keeps table readable on small screens */
+  min-width: 720px;
+}
+
+.tbl th,
+.tbl td {
+  padding: 14px 16px;
+
+  text-align: left;
+  font-size: 0.88rem;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+  white-space: nowrap;
+}
+
+.tbl th {
+  color: var(--gold);
+  background: rgba(255, 189, 63, 0.08);
+
+  white-space: nowrap;
+}
+
+.tbl tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.tbl tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* =========================================
+   DELETE BUTTON
+========================================= */
+
+.del {
+  background: rgba(255, 80, 80, 0.15);
+  color: #ff8a8a;
+
+  border: 1px solid rgba(255, 80, 80, 0.4);
+  border-radius: 8px;
+
+  padding: 6px 12px;
+
+  font-size: 0.82rem;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+
+.del:hover {
+  background: #e03e3e;
+  color: #fff;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.empty {
+  width: 100%;
+  padding: 50px 20px;
+
+  text-align: center;
+
+  color: var(--muted);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+  .tbl {
+    border-radius: 14px;
+  }
+
+  .tbl table {
+    min-width: 680px;
+  }
+
+  .tbl th,
+  .tbl td {
+    padding: 12px 13px;
+    font-size: 0.82rem;
+  }
+
+  .del {
+    padding: 6px 10px;
+    font-size: 0.78rem;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+  .tbl {
+    border-radius: 12px;
+
+    /* Visible horizontal scroll on mobile */
+    overflow-x: auto;
+  }
+
+  .tbl table {
+    min-width: 650px;
+  }
+
+  .tbl th,
+  .tbl td {
+    padding: 11px 12px;
+    font-size: 0.78rem;
+  }
+
+  .del {
+    padding: 6px 9px;
+    font-size: 0.75rem;
+  }
+
+  .empty {
+    padding: 40px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* =========================================
+   VERY SMALL MOBILE
+========================================= */
+
+@media (max-width: 360px) {
+  .tbl table {
+    min-width: 620px;
+  }
+
+  .tbl th,
+  .tbl td {
+    padding: 10px;
+    font-size: 0.75rem;
+  }
+}

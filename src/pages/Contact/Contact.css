@@ -1,0 +1,968 @@
+/* =========================================================
+   CONTACT PAGE
+========================================================= */
+
+
+/* =========================================================
+   MAIN LAYOUT
+========================================================= */
+
+.contact-split {
+  align-items: start;
+}
+
+
+.contact-left {
+  width: 100%;
+}
+
+
+.contact-info-list {
+  width: 100%;
+}
+
+
+/* =========================================================
+   CONTACT INFORMATION
+========================================================= */
+
+.info {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  position: relative;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  margin-bottom: 18px;
+
+  padding: 18px;
+
+  border-radius: 18px;
+
+  background: var(--card);
+
+  border: 1px solid var(--line);
+
+  text-decoration: none;
+
+  transition:
+    border-color 0.3s ease,
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.info:hover {
+  border-color: var(--gold);
+
+  transform: translateX(6px);
+
+  background:
+    rgba(255, 189, 63, 0.035);
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================================
+   ICON
+========================================================= */
+
+.info .ico {
+  width: 50px;
+
+  height: 50px;
+
+  margin: 0;
+
+  flex: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 14px;
+
+  color: var(--gold);
+
+  background:
+    rgba(255, 189, 63, 0.09);
+
+  border:
+    1px solid
+    rgba(255, 189, 63, 0.18);
+
+  font-size: 1.3rem;
+
+  transition:
+    background 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.info:hover .ico {
+  background:
+    rgba(255, 189, 63, 0.15);
+
+  transform: scale(1.05);
+}
+
+
+/* =========================================================
+   INFO CONTENT
+========================================================= */
+
+.info-content {
+  min-width: 0;
+
+  flex: 1;
+}
+
+
+.info small {
+  display: block;
+
+  margin-bottom: 4px;
+
+  color: var(--muted);
+
+  font-size: 0.78rem;
+}
+
+
+.info b {
+  display: block;
+
+  color: inherit;
+
+  font-size: 0.96rem;
+
+  line-height: 1.4;
+
+  word-break: break-word;
+}
+
+
+/* =========================================================
+   INFO ARROW
+========================================================= */
+
+.info-arrow {
+  width: 30px;
+
+  height: 30px;
+
+  flex: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  color:
+    rgba(255, 255, 255, 0.25);
+
+  font-size: 0.72rem;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.info:hover .info-arrow {
+  color: var(--gold);
+
+  transform: translateX(3px);
+}
+
+
+/* =========================================================
+   CONTACT PERSON
+========================================================= */
+
+.contact-person-card {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 16px;
+
+  margin-top: 24px;
+
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 189, 63, 0.08),
+      rgba(255, 189, 63, 0.025)
+    );
+
+  border:
+    1px solid
+    rgba(255, 189, 63, 0.22);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.contact-person-card:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(255, 189, 63, 0.45);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+
+.person-icon {
+  width: 52px;
+
+  height: 52px;
+
+  flex: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background: var(--gold);
+
+  color: var(--navy2);
+
+  font-size: 1.15rem;
+
+  box-shadow:
+    0 8px 20px
+    rgba(255, 189, 63, 0.18);
+}
+
+
+.person-content {
+  min-width: 0;
+}
+
+
+.person-content small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--muted);
+
+  font-size: 0.76rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.08em;
+}
+
+
+.person-content h3 {
+  margin: 0;
+
+  color: var(--gold);
+
+  font-family:
+    "Playfair Display",
+    serif;
+
+  font-size: 1.25rem;
+
+  line-height: 1.25;
+}
+
+
+.person-content p {
+  margin: 7px 0 0;
+
+  color:
+    rgba(255, 255, 255, 0.58);
+
+  font-size: 0.82rem;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   INSTAGRAM CARD
+========================================================= */
+
+.instagram-card {
+  position: relative;
+
+  overflow: hidden;
+
+  margin-top: 18px;
+
+  padding: 22px;
+
+  border-radius: 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(120, 65, 160, 0.12),
+      rgba(255, 189, 63, 0.045)
+    );
+
+  border:
+    1px solid var(--line);
+
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+
+.instagram-card::before {
+  content: "";
+
+  position: absolute;
+
+  top: -70px;
+
+  right: -60px;
+
+  width: 160px;
+
+  height: 160px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(255, 189, 63, 0.06);
+
+  filter: blur(15px);
+
+  pointer-events: none;
+}
+
+
+.instagram-card:hover {
+  transform: translateY(-3px);
+
+  border-color:
+    rgba(255, 189, 63, 0.35);
+
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================================================
+   INSTAGRAM TOP
+========================================================= */
+
+.instagram-card-top {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+}
+
+
+.instagram-icon {
+  width: 52px;
+
+  height: 52px;
+
+  flex: none;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 15px;
+
+  color: #fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #833ab4,
+      #fd1d1d,
+      #fcb045
+    );
+
+  font-size: 1.45rem;
+
+  box-shadow:
+    0 8px 22px
+    rgba(131, 58, 180, 0.22);
+}
+
+
+.instagram-heading {
+  min-width: 0;
+}
+
+
+.instagram-heading small {
+  display: block;
+
+  margin-bottom: 3px;
+
+  color: var(--muted);
+
+  font-size: 0.72rem;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.1em;
+}
+
+
+.instagram-heading h3 {
+  margin: 0;
+
+  color: var(--gold);
+
+  font-size: 1rem;
+
+  line-height: 1.35;
+}
+
+
+/* =========================================================
+   INSTAGRAM TEXT
+========================================================= */
+
+.instagram-text {
+  position: relative;
+
+  z-index: 1;
+
+  margin: 16px 0;
+
+  color:
+    rgba(255, 255, 255, 0.62);
+
+  font-size: 0.82rem;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   INSTAGRAM BUTTON
+========================================================= */
+
+.instagram-follow-btn {
+  position: relative;
+
+  z-index: 1;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  width: 100%;
+
+  min-height: 48px;
+
+  box-sizing: border-box;
+
+  padding: 0 16px;
+
+  border-radius: 13px;
+
+  background:
+    rgba(255, 255, 255, 0.045);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.09);
+
+  color: var(--gold);
+
+  text-decoration: none;
+
+  font-size: 0.84rem;
+
+  font-weight: 600;
+
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+
+.instagram-follow-btn:hover {
+  background:
+    rgba(255, 189, 63, 0.08);
+
+  border-color:
+    rgba(255, 189, 63, 0.35);
+
+  transform: translateY(-2px);
+}
+
+
+.instagram-follow-btn svg {
+  font-size: 0.78rem;
+
+  transition:
+    transform 0.25s ease;
+}
+
+
+.instagram-follow-btn:hover svg {
+  transform: translateX(4px);
+}
+
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.submit {
+  width: 100%;
+
+  justify-content: center;
+
+  gap: 9px;
+}
+
+
+/* =========================================================
+   FORM PLACEHOLDERS
+========================================================= */
+
+/*
+   IMPORTANT:
+   Bright placeholder so it is clearly visible
+   on the dark form background.
+*/
+
+.form input::placeholder,
+.form textarea::placeholder {
+  color: rgba(255, 255, 255, 0.62);
+
+  opacity: 1;
+
+  font-size: 0.84rem;
+}
+
+
+.form input:focus::placeholder,
+.form textarea:focus::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+
+/* =========================================================
+   FORM TEXTAREA
+========================================================= */
+
+.form textarea {
+  min-height: 145px;
+
+  resize: vertical;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  .contact-person-card {
+    padding: 18px;
+  }
+
+
+  .instagram-card {
+    padding: 20px;
+  }
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+  .contact-split {
+    grid-template-columns: 1fr;
+
+    gap: 35px;
+  }
+
+
+  .info {
+    padding: 16px;
+
+    gap: 13px;
+
+    margin-bottom: 14px;
+  }
+
+
+  .info .ico {
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 13px;
+
+    font-size: 1.15rem;
+  }
+
+
+  .info small {
+    font-size: 0.72rem;
+  }
+
+
+  .info b {
+    font-size: 0.88rem;
+  }
+
+
+  .info-arrow {
+    width: 26px;
+
+    height: 26px;
+  }
+
+
+  .contact-person-card {
+    margin-top: 20px;
+
+    padding: 17px;
+
+    gap: 13px;
+
+    border-radius: 17px;
+  }
+
+
+  .person-icon {
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 13px;
+
+    font-size: 1rem;
+  }
+
+
+  .person-content h3 {
+    font-size: 1.1rem;
+  }
+
+
+  .person-content p {
+    font-size: 0.76rem;
+
+    line-height: 1.55;
+  }
+
+
+  .instagram-card {
+    margin-top: 14px;
+
+    padding: 18px;
+
+    border-radius: 17px;
+  }
+
+
+  .instagram-icon {
+    width: 46px;
+
+    height: 46px;
+
+    border-radius: 13px;
+
+    font-size: 1.25rem;
+  }
+
+
+  .instagram-heading h3 {
+    font-size: 0.91rem;
+  }
+
+
+  .instagram-heading small {
+    font-size: 0.66rem;
+  }
+
+
+  .instagram-text {
+    margin: 13px 0;
+
+    font-size: 0.76rem;
+  }
+
+
+  .instagram-follow-btn {
+    min-height: 46px;
+
+    font-size: 0.78rem;
+  }
+
+
+  /* FORM PLACEHOLDERS */
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.65);
+
+    font-size: 0.78rem;
+  }
+
+
+  .form textarea {
+    min-height: 125px;
+  }
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 420px) {
+
+  .contact-split {
+    gap: 28px;
+  }
+
+
+  .info {
+    padding: 14px;
+
+    gap: 11px;
+
+    border-radius: 15px;
+  }
+
+
+  .info .ico {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 11px;
+
+    font-size: 1rem;
+  }
+
+
+  .info b {
+    font-size: 0.82rem;
+  }
+
+
+  .info-arrow {
+    display: none;
+  }
+
+
+  .contact-person-card {
+    padding: 15px;
+
+    border-radius: 15px;
+  }
+
+
+  .person-icon {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 11px;
+  }
+
+
+  .person-content h3 {
+    font-size: 1rem;
+  }
+
+
+  .person-content p {
+    font-size: 0.72rem;
+  }
+
+
+  .instagram-card {
+    padding: 15px;
+
+    border-radius: 15px;
+  }
+
+
+  .instagram-card-top {
+    gap: 11px;
+  }
+
+
+  .instagram-icon {
+    width: 42px;
+
+    height: 42px;
+
+    border-radius: 11px;
+
+    font-size: 1.1rem;
+  }
+
+
+  .instagram-heading h3 {
+    font-size: 0.84rem;
+  }
+
+
+  .instagram-text {
+    font-size: 0.7rem;
+
+    line-height: 1.55;
+  }
+
+
+  .instagram-follow-btn {
+    min-height: 44px;
+
+    padding: 0 13px;
+
+    font-size: 0.72rem;
+  }
+
+
+  /* SMALL MOBILE PLACEHOLDERS */
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.68);
+
+    font-size: 0.73rem;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 340px) {
+
+  .info {
+    padding: 12px;
+  }
+
+
+  .info .ico {
+    width: 39px;
+
+    height: 39px;
+
+    font-size: 0.9rem;
+  }
+
+
+  .info b {
+    font-size: 0.76rem;
+  }
+
+
+  .contact-person-card {
+    gap: 10px;
+
+    padding: 13px;
+  }
+
+
+  .person-icon {
+    width: 39px;
+
+    height: 39px;
+
+    font-size: 0.9rem;
+  }
+
+
+  .person-content h3 {
+    font-size: 0.92rem;
+  }
+
+
+  .person-content p {
+    font-size: 0.67rem;
+  }
+
+
+  .instagram-card {
+    padding: 13px;
+  }
+
+
+  .instagram-icon {
+    width: 39px;
+
+    height: 39px;
+
+    font-size: 1rem;
+  }
+
+
+  .instagram-heading h3 {
+    font-size: 0.77rem;
+  }
+
+
+  .instagram-follow-btn {
+    font-size: 0.67rem;
+  }
+
+
+  .form input::placeholder,
+  .form textarea::placeholder {
+    color: rgba(255, 255, 255, 0.70);
+
+    font-size: 0.68rem;
+  }
+}

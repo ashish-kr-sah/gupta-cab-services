@@ -1,0 +1,24 @@
+import { FaCheckCircle } from "react-icons/fa";
+import PageHead from "../../components/PageHead/PageHead";
+import Reveal from "../../components/Reveal/Reveal";
+
+const POINTS = ["Experienced local drivers", "Clean, sanitized & well-maintained cars", "Customised Sikkim, Darjeeling & Kalimpong itineraries", "Outstation trips to Kolkata, Bihar, Jharkhand & all over India", "Honest pricing, 24×7 support"];
+
+export default function About() {
+  return (
+    <>
+      <PageHead title="About" highlight="Us" text="Travel with Raunak – driven by passion for the mountains." />
+      <section className="section">
+        <div className="container split">
+          <Reveal><img src="/images/about-img.jpeg" alt="About Gupta Cab Service" /></Reveal>
+          <Reveal delay={0.15}>
+            <span className="eyebrow">Our Story</span>
+            <h2 className="title">Your Trusted <span>Journey Partner</span></h2>
+            <p className="lead" style={{ marginBottom: 14 }}>Gupta Cab Service started with a simple promise: safe, comfortable and honest travel. From Siliguri and NJP to Gangtok, Lachung, Darjeeling, Kalimpong and beyond to Kolkata, Bihar and Jharkhand, we take families, couples and groups wherever they want to go.</p>
+            <ul className="ticks">{POINTS.map((x) => <li key={x}><FaCheckCircle />{x}</li>)}</ul>
+          </Reveal>
+        </div>
+      </section>
+    </>
+  );
+}

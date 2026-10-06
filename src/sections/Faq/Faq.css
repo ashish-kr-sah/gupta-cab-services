@@ -1,0 +1,5 @@
+.faq{max-width:800px;margin:auto}
+.faq details{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:12px;padding:18px 24px}
+.faq summary{cursor:pointer;font-weight:600;color:var(--ivory);list-style:none;display:flex;justify-content:space-between;gap:12px}
+.faq summary:after{content:"+";color:var(--gold);font-size:1.4rem}.faq details[open] summary:after{content:"–"}
+.faq p{color:var(--muted);margin-top:10px}
