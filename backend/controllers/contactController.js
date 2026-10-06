@@ -1,12 +1,23 @@
 const Contact = require("../models/Contact");
-const transporter = require("../config/mail");
+
+const {
+  sendEmail,
+  adminEmail,
+} = require("../config/mail");
 
 // ==========================
-// Create Contact (User)
+// Create Contact
 // ==========================
+
 const createContact = async (req, res) => {
   try {
-    const { fullName, email, phone, subject, message } = req.body;
+    const {
+      fullName,
+      email,
+      phone,
+      subject,
+      message,
+    } = req.body;
 
     if (!fullName || !email || !phone || !subject || !message) {
       return res.status(400).json({
@@ -24,69 +35,83 @@ const createContact = async (req, res) => {
     });
 
     // ==========================
-    // Admin Email
+    // Admin Notification
     // ==========================
-    try {
-      const adminInfo = await transporter.sendMail({
-        from: `"Gupta Cab Service" <${process.env.EMAIL_USER}>`,
-        to: process.env.ADMIN_EMAIL,
-        replyTo: email,
-        subject: "📩 New Contact Request - Gupta Cab Service",
-        html: `
-          <h2>📩 New Contact Request</h2>
-          <p><b>Name:</b> ${fullName}</p>
-          <p><b>Email:</b> ${email}</p>
-          <p><b>Phone:</b> ${phone}</p>
-          <p><b>Subject:</b> ${subject}</p>
-          <p><b>Message:</b> ${message}</p>
-        `,
-      });
 
-      console.log("✅ Admin mail sent:", adminInfo.response);
-    } catch (err) {
-      console.error("❌ Admin Mail Error:", err);
+    const adminMail = await sendEmail({
+      to: adminEmail,
+      subject: "📩 New Contact Request - Gupta Cab Service",
+      replyTo: email,
+      html: `
+        <div style="font-family:Arial,sans-serif;padding:20px;line-height:1.6;">
+          <h2>📩 New Contact Request</h2>
+          <p><strong>Name:</strong> ${fullName}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Phone:</strong> ${phone}</p>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong> ${message}</p>
+          <hr>
+          <p>This message was submitted from the Gupta Cab Service website.</p>
+        </div>
+      `,
+    });
+
+    if (adminMail.success) {
+      console.log("✅ Admin contact mail sent");
+    } else {
+      console.error(
+        "❌ Admin contact mail failed:",
+        adminMail.error?.message
+      );
     }
 
     // ==========================
-    // Customer Email
+    // Customer Confirmation
     // ==========================
-    try {
-      const customerInfo = await transporter.sendMail({
-        from: `"Gupta Cab Service" <${process.env.EMAIL_USER}>`,
-        to: email.trim(),
-        subject: "Thank You for Contacting Gupta Cab Service 🚖",
-        html: `
-          <div style="font-family:Arial;padding:20px;">
-            <h2>Thank You for Contacting Gupta Cab Service 🚖</h2>
 
-            <p>Hello <b>${fullName}</b>,</p>
+    const customerMail = await sendEmail({
+      to: email,
+      subject: "Thank You for Contacting Gupta Cab Service 🚖",
+      html: `
+        <div style="font-family:Arial,sans-serif;padding:20px;line-height:1.6;">
+          <h2>Thank You for Contacting Gupta Cab Service 🚖</h2>
 
-            <p>We have received your message successfully.</p>
+          <p>Hello <strong>${fullName}</strong>,</p>
 
-            <p>Our support team will contact you as soon as possible.</p>
+          <p>We have received your message successfully.</p>
 
-            <hr>
+          <p>Our support team will contact you as soon as possible.</p>
 
-            <p><b>Subject:</b> ${subject}</p>
-            <p>${message}</p>
+          <hr>
 
-            <br>
+          <p><strong>Subject:</strong> ${subject}</p>
+          <p><strong>Message:</strong> ${message}</p>
 
-            <p>Regards,</p>
-            <h3>Gupta Cab Service Team</h3>
-          </div>
-        `,
-      });
+          <br>
 
-      console.log("✅ Customer mail sent:", customerInfo.response);
-    } catch (err) {
-      console.error("❌ Customer Mail Error:", err);
+          <p>Regards,</p>
+          <h3>Gupta Cab Service Team</h3>
+        </div>
+      `,
+    });
+
+    if (customerMail.success) {
+      console.log("✅ Customer contact mail sent");
+    } else {
+      console.error(
+        "❌ Customer contact mail failed:",
+        customerMail.error?.message
+      );
     }
 
     return res.status(201).json({
       success: true,
       message: "Contact submitted successfully",
       data: contact,
+      email: {
+        admin: adminMail.success,
+        customer: customerMail.success,
+      },
     });
   } catch (error) {
     console.error("❌ Contact Error:", error);
@@ -99,101 +124,57 @@ const createContact = async (req, res) => {
 };
 
 // ==========================
-// Get All Contacts (Admin)
+// Get All Contacts
 // ==========================
+
 const getContacts = async (req, res) => {
-
   try {
-
     const contacts = await Contact.findAll({
-
-      order: [
-
-        ["createdAt", "DESC"]
-
-      ]
-
+      order: [["createdAt", "DESC"]],
     });
 
-
-    res.status(200).json({
-
+    return res.status(200).json({
       success: true,
-
-      data: contacts
-
+      data: contacts,
     });
-
   } catch (error) {
+    console.error("❌ Get Contacts Error:", error);
 
-    console.error(error);
-
-    res.status(500).json({
-
+    return res.status(500).json({
       success: false,
-
-      message: "Internal Server Error"
-
+      message: "Internal Server Error",
     });
-
   }
-
 };
 
-
-
-
 // ==========================
-// Delete Contact (Admin)
+// Delete Contact
 // ==========================
+
 const deleteContact = async (req, res) => {
-
   try {
-
     const { id } = req.params;
 
     await Contact.destroy({
-
-      where: {
-        id
-      }
-
+      where: { id },
     });
 
-
-    res.status(200).json({
-
+    return res.status(200).json({
       success: true,
-
-      message: "Contact deleted successfully"
-
+      message: "Contact deleted successfully",
     });
-
   } catch (error) {
+    console.error("❌ Delete Contact Error:", error);
 
-    console.error(error);
-
-    res.status(500).json({
-
+    return res.status(500).json({
       success: false,
-
-      message: "Internal Server Error"
-
+      message: "Internal Server Error",
     });
-
   }
-
 };
 
-
-
-
 module.exports = {
-
   createContact,
-
   getContacts,
-
-  deleteContact
-
+  deleteContact,
 };

@@ -1,47 +1,87 @@
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend");
 require("dotenv").config();
 
-const emailUser = process.env.EMAIL_USER?.trim();
-const emailPassword = process.env.EMAIL_PASSWORD?.trim();
+const apiKey = process.env.RESEND_API_KEY?.trim();
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
+const resend = apiKey ? new Resend(apiKey) : null;
 
-  auth: {
-    user: emailUser,
-    pass: emailPassword,
-  },
+const emailFrom =
+  process.env.EMAIL_FROM?.trim() ||
+  "Gupta Cab Service <onboarding@resend.dev>";
 
-  requireTLS: true,
+const adminEmail = process.env.ADMIN_EMAIL?.trim();
 
-  tls: {
-    minVersion: "TLSv1.2",
-  },
-});
+const sendEmail = async ({ to, subject, html, replyTo }) => {
+  const recipient = to?.trim();
 
-const verifyMail = async () => {
-  if (!emailUser || !emailPassword) {
-    console.warn(
-      "⚠️ Gmail is not configured. Set EMAIL_USER and EMAIL_PASSWORD in backend/.env"
-    );
+  if (!recipient) {
+    return {
+      success: false,
+      error: new Error("Recipient email is missing"),
+    };
+  }
 
-    return false;
+  if (!resend) {
+    return {
+      success: false,
+      error: new Error("RESEND_API_KEY is not configured"),
+    };
+  }
+
+  if (!adminEmail) {
+    console.warn("⚠️ ADMIN_EMAIL is not configured.");
   }
 
   try {
-    await transporter.verify();
+    const payload = {
+      from: emailFrom,
+      to: recipient,
+      subject,
+      html,
+    };
 
-    console.log("✅ Gmail SMTP Connected");
+    if (replyTo?.trim()) {
+      payload.replyTo = replyTo.trim();
+    }
 
-    return true;
+    const result = await resend.emails.send(payload);
+
+    if (result?.error) {
+      throw new Error(result.error.message || "Resend email failed");
+    }
+
+    console.log(`✅ Email sent successfully to ${recipient}`);
+
+    return {
+      success: true,
+      data: result?.data || null,
+    };
   } catch (error) {
-    console.error("❌ Gmail SMTP Error:", error.message);
+    console.error(`❌ Email Error (${recipient}):`, error.message);
 
-    return false;
+    return {
+      success: false,
+      error,
+    };
   }
 };
 
-module.exports = transporter;
-module.exports.verifyMail = verifyMail;
+const verifyMail = async () => {
+  if (!apiKey) {
+    console.warn("⚠️ RESEND_API_KEY is not configured.");
+    return false;
+  }
+
+  console.log("✅ Resend API configured");
+  console.log(`📧 Email sender: ${emailFrom}`);
+
+  return true;
+};
+
+module.exports = {
+  resend,
+  sendEmail,
+  verifyMail,
+  emailFrom,
+  adminEmail,
+};
