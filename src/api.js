@@ -1,11 +1,11 @@
 import axios from "axios";
 
-// Local backend by default. It automatically uses the same host as the Vite app,
-// which also makes API requests work when testing the site from a phone on Wi-Fi.
-const localApi = `${window.location.protocol}//${window.location.hostname}:5000`;
+// Production API
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  `${window.location.protocol}//${window.location.hostname}:5000`;
 
-export const API =
-  import.meta.env.VITE_API_URL || localApi;
+export const API = API_URL.replace(/\/$/, "");
 
 export const api = axios.create({
   baseURL: `${API}/api`,
