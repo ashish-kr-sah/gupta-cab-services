@@ -3,11 +3,11 @@ const cors = require("cors");
 require("dotenv").config();
 
 const sequelize = require("./config/db");
-const { ensureDatabase } = sequelize;
 
 // ==========================
 // Import Models
 // ==========================
+
 require("./models/Contact");
 require("./models/Booking");
 require("./models/Admin");
@@ -15,6 +15,7 @@ require("./models/Admin");
 // ==========================
 // Import Routes
 // ==========================
+
 const contactRoutes = require("./routes/contactRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
@@ -81,15 +82,13 @@ const connectDatabase = async () => {
 
   if (!dbPromise) {
     dbPromise = (async () => {
-      await ensureDatabase();
-
       await sequelize.authenticate();
 
-      console.log("✅ Local MySQL Connected");
+      console.log("✅ Neon PostgreSQL Connected");
 
       await sequelize.sync();
 
-      console.log("✅ Database Tables Synced");
+      console.log("✅ PostgreSQL Database Tables Synced");
 
       dbReady = true;
     })().catch((error) => {
@@ -110,11 +109,11 @@ app.use(async (req, res, next) => {
     await connectDatabase();
     next();
   } catch (error) {
-    console.error("❌ DATABASE ERROR:", error.message);
+    console.error("❌ DATABASE ERROR:", error);
 
     res.status(500).json({
       success: false,
-      message: "Local MySQL connection failed",
+      message: "PostgreSQL database connection failed",
       error: error.message,
     });
   }
@@ -142,12 +141,16 @@ app.get("/api/health", async (req, res) => {
     res.json({
       success: true,
       database: "connected",
-      environment: "local",
+      databaseType: "PostgreSQL",
+      environment: process.env.NODE_ENV || "production",
     });
   } catch (error) {
+    console.error("❌ HEALTH CHECK DATABASE ERROR:", error);
+
     res.status(500).json({
       success: false,
       database: "disconnected",
+      databaseType: "PostgreSQL",
       message: error.message,
     });
   }
@@ -158,9 +161,7 @@ app.get("/api/health", async (req, res) => {
 // ==========================
 
 app.use("/api/contact", contactRoutes);
-
 app.use("/api/booking", bookingRoutes);
-
 app.use("/api/admin", adminRoutes);
 
 // ==========================
@@ -177,14 +178,14 @@ app.use((err, req, res, next) => {
 });
 
 // ==========================
-// Local Server
+// Server
 // ==========================
 
 const PORT = Number(process.env.PORT) || 5000;
 
-app.listen(PORT, () => {
-  console.log(`🚀 Backend running: http://localhost:${PORT}`);
-  console.log(`🩺 Health check: http://localhost:${PORT}/api/health`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🚀 Backend running on port ${PORT}`);
+  console.log(`🩺 Health check: /api/health`);
 });
 
 // ==========================
