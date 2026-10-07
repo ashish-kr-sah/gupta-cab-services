@@ -39,7 +39,6 @@ export default function Lightbox({
     };
 
     document.addEventListener("keydown", handleKeyDown);
-
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -74,6 +73,9 @@ export default function Lightbox({
     <div
       className="lightbox"
       onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-label="Gupta Cab Service travel gallery"
     >
       {/* CLOSE BUTTON */}
       <button
@@ -82,11 +84,14 @@ export default function Lightbox({
         onClick={onClose}
         aria-label="Close gallery"
       >
-        <FaTimes />
+        <FaTimes aria-hidden="true" />
       </button>
 
       {/* IMAGE COUNTER */}
-      <div className="lightbox-counter">
+      <div
+        className="lightbox-counter"
+        aria-live="polite"
+      >
         {selectedIndex + 1} / {images.length}
       </div>
 
@@ -98,9 +103,9 @@ export default function Lightbox({
           event.stopPropagation();
           previousImage();
         }}
-        aria-label="Previous image"
+        aria-label="Previous gallery image"
       >
-        <FaChevronLeft />
+        <FaChevronLeft aria-hidden="true" />
       </button>
 
       {/* IMAGE */}
@@ -111,7 +116,10 @@ export default function Lightbox({
         <img
           key={images[selectedIndex]}
           src={images[selectedIndex]}
-          alt={`Gallery ${selectedIndex + 1}`}
+          alt={`Gupta Cab Service travel gallery photo ${
+            selectedIndex + 1
+          }`}
+          decoding="async"
         />
       </div>
 
@@ -123,15 +131,15 @@ export default function Lightbox({
           event.stopPropagation();
           nextImage();
         }}
-        aria-label="Next image"
+        aria-label="Next gallery image"
       >
-        <FaChevronRight />
+        <FaChevronRight aria-hidden="true" />
       </button>
 
       {/* BOTTOM INFO */}
       <div className="lightbox-bottom">
         <span>Gupta Cab Service</span>
-        <span>•</span>
+        <span aria-hidden="true">•</span>
         <span>Travel Moments</span>
       </div>
     </div>

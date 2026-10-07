@@ -4,7 +4,16 @@
 .footer h4{color:var(--gold);margin-bottom:16px;font-family:'Playfair Display',serif}
 .footer li{list-style:none;margin-bottom:9px;color:var(--muted);font-size:.92rem}
 .footer li a{transition:.3s}.footer li a:hover{color:var(--gold);padding-left:5px}
-.flogo{width:90px;border-radius:50%;margin-bottom:14px;box-shadow:0 0 0 2px var(--gold)}
+.flogo{
+  width:90px;
+  height:90px;
+  aspect-ratio:1 / 1;
+  object-fit:contain;
+  display:block;
+  border-radius:50%;
+  margin-bottom:14px;
+  box-shadow:0 0 0 2px var(--gold);
+}
 .fabout{color:var(--muted);font-size:.9rem}.ftag{color:var(--gold);margin-top:10px;font-family:'Playfair Display',serif;font-size:1.05rem}
 .adminlink{opacity:.5}
 .credit{margin-top:50px;padding:20px 0;border-top:1px solid var(--line);text-align:center;color:var(--muted);font-size:.85rem}.credit b{color:var(--gold)}

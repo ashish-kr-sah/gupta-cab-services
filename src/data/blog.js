@@ -1,5 +1,5 @@
 /*
-  ============  BLOG POSTS  ============
+  ============ BLOG POSTS ============
 
   Naya post add karna ho to list ke SABSE UPAR ek line add karo.
 
@@ -15,7 +15,6 @@
       title: "Gangtok Trip",
       caption: "Hamare guests ke sath"
     }
-
 */
 
 const RAW = [
@@ -30,12 +29,11 @@ const RAW = [
   "https://www.instagram.com/reel/Da7KSi7Rq6K/",
 ];
 
-
 /* =========================================
    DETECT POST TYPE
 ========================================= */
 
-const detectType = (url) => {
+const detectType = (url = "") => {
   if (/instagram\.com/i.test(url)) {
     return "instagram";
   }
@@ -47,45 +45,47 @@ const detectType = (url) => {
   return "image";
 };
 
-
 /* =========================================
    CLEAN INSTAGRAM URL
 ========================================= */
 
 const cleanInsta = (url) => {
-  const m = url.match(
+  const match = url.match(
     /instagram\.com\/(reel|reels|p|tv)\/([A-Za-z0-9_-]+)/i
   );
 
-  if (!m) return url;
+  if (!match) {
+    return url;
+  }
 
-  const type = m[1].toLowerCase() === "reels"
-    ? "reel"
-    : m[1].toLowerCase();
+  const type =
+    match[1].toLowerCase() === "reels"
+      ? "reel"
+      : match[1].toLowerCase();
 
-  return `https://www.instagram.com/${type}/${m[2]}/`;
+  return `https://www.instagram.com/${type}/${match[2]}/`;
 };
-
 
 /* =========================================
    FINAL POSTS ARRAY
 ========================================= */
 
-export const posts = RAW.map((item, i) => {
-  const o =
+export const posts = RAW.map((item, index) => {
+  const post =
     typeof item === "string"
       ? { url: item }
       : item;
 
-  const type = o.type || detectType(o.url);
+  const type =
+    post.type || detectType(post.url);
 
   return {
-    id: i,
+    id: index,
     type,
-    ...o,
+    ...post,
     url:
       type === "instagram"
-        ? cleanInsta(o.url)
-        : o.url,
+        ? cleanInsta(post.url)
+        : post.url,
   };
 });

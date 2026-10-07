@@ -37,7 +37,10 @@ export default function Gallery() {
         text="Moments from the journeys."
       />
 
-      <section className="section">
+      <section
+        className="section"
+        aria-label="Gupta Cab Service travel gallery"
+      >
         <div className="container masonry">
           {IMAGES.map((src, i) => (
             <Reveal
@@ -50,8 +53,11 @@ export default function Gallery() {
               >
                 <img
                   src={src}
-                  alt={`Gallery ${i + 1}`}
+                  alt={`Gupta Cab Service travel gallery photo ${i + 1}`}
                   loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="600"
                 />
 
                 <div className="gallery-overlay">

@@ -13,7 +13,6 @@ import {
 
 import "./Booking.css";
 
-
 const EMPTY = {
   fullName: "",
   phone: "",
@@ -25,9 +24,7 @@ const EMPTY = {
   message: "",
 };
 
-
 export default function Booking() {
-
   const {
     values: f,
     onChange,
@@ -39,12 +36,9 @@ export default function Booking() {
     "Booking submitted successfully! We will contact you within 20 minutes. 🚖"
   );
 
-
   return (
     <>
-      {/* =====================================================
-          PAGE HEADER
-      ===================================================== */}
+      {/* PAGE HEADER */}
 
       <PageHead
         title="Book Your"
@@ -52,31 +46,22 @@ export default function Booking() {
         text="Fill the form – we will confirm within 20 minutes."
       />
 
+      {/* BOOKING SECTION */}
 
-      {/* =====================================================
-          BOOKING SECTION
-      ===================================================== */}
-
-      <section className="section">
-
+      <section
+        className="section"
+        aria-label="Gupta Cab Service cab booking form"
+      >
         <div className="container booking-wrap">
-
           <Reveal>
-
             <form
               className="form"
               onSubmit={onSubmit}
             >
-
               <div className="fgrid">
-
-
-                {/* =================================================
-                    FULL NAME
-                ================================================= */}
+                {/* FULL NAME */}
 
                 <FormField label="Full Name">
-
                   <input
                     name="fullName"
                     type="text"
@@ -86,16 +71,11 @@ export default function Booking() {
                     autoComplete="name"
                     required
                   />
-
                 </FormField>
 
-
-                {/* =================================================
-                    PHONE
-                ================================================= */}
+                {/* PHONE */}
 
                 <FormField label="Phone">
-
                   <input
                     name="phone"
                     type="tel"
@@ -105,19 +85,14 @@ export default function Booking() {
                     autoComplete="tel"
                     required
                   />
-
                 </FormField>
 
-
-                {/* =================================================
-                    EMAIL
-                ================================================= */}
+                {/* EMAIL */}
 
                 <FormField
                   label="Email"
                   full
                 >
-
                   <input
                     name="email"
                     type="email"
@@ -127,41 +102,31 @@ export default function Booking() {
                     autoComplete="email"
                     required
                   />
-
                 </FormField>
 
-
-                {/* =================================================
-                    PICKUP LOCATION
-                ================================================= */}
+                {/* PICKUP LOCATION */}
 
                 <FormField label="Pickup Location">
-
                   <input
                     name="pickup"
                     type="text"
                     value={f.pickup}
                     onChange={onChange}
                     placeholder="e.g. NJP Station, Bagdogra Airport"
+                    autoComplete="street-address"
                     required
                   />
-
                 </FormField>
 
-
-                {/* =================================================
-                    DESTINATION
-                ================================================= */}
+                {/* DESTINATION */}
 
                 <FormField label="Destination">
-
                   <select
                     name="destination"
                     value={f.destination}
                     onChange={onChange}
                     required
                   >
-
                     <option value="">
                       Select your destination
                     </option>
@@ -174,25 +139,18 @@ export default function Booking() {
                         {destination}
                       </option>
                     ))}
-
                   </select>
-
                 </FormField>
 
-
-                {/* =================================================
-                    CAB TYPE / CAR NAME
-                ================================================= */}
+                {/* CAB TYPE / CAR NAME */}
 
                 <FormField label="Cab Type / Car">
-
                   <select
                     name="cabType"
                     value={f.cabType}
                     onChange={onChange}
                     required
                   >
-
                     <option value="">
                       Select your preferred car
                     </option>
@@ -205,25 +163,18 @@ export default function Booking() {
                         {cab}
                       </option>
                     ))}
-
                   </select>
-
                 </FormField>
 
-
-                {/* =================================================
-                    PERSONS
-                ================================================= */}
+                {/* PERSONS */}
 
                 <FormField label="Persons">
-
                   <select
                     name="persons"
                     value={f.persons}
                     onChange={onChange}
                     required
                   >
-
                     <option value="">
                       Select number of persons
                     </option>
@@ -236,21 +187,15 @@ export default function Booking() {
                         {person}
                       </option>
                     ))}
-
                   </select>
-
                 </FormField>
 
-
-                {/* =================================================
-                    MESSAGE
-                ================================================= */}
+                {/* MESSAGE */}
 
                 <FormField
                   label="Message (optional)"
                   full
                 >
-
                   <textarea
                     name="message"
                     value={f.message}
@@ -258,41 +203,27 @@ export default function Booking() {
                     placeholder="Tell us your travel date, number of days, special requests..."
                     rows="6"
                   />
-
                 </FormField>
 
-
-                {/* =================================================
-                    SUBMIT BUTTON
-                ================================================= */}
+                {/* SUBMIT BUTTON */}
 
                 <div className="full">
-
                   <button
                     type="submit"
                     className="btn btn-gold submit"
                     disabled={busy}
                   >
-
-                    <FaPaperPlane />
+                    <FaPaperPlane aria-hidden="true" />
 
                     {busy
                       ? "Submitting…"
                       : "Confirm Booking"}
-
                   </button>
-
                 </div>
-
-
               </div>
-
             </form>
-
           </Reveal>
-
         </div>
-
       </section>
     </>
   );

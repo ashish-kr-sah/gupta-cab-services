@@ -76,9 +76,7 @@ export default function Contact() {
 
   return (
     <>
-      {/* =====================================================
-          PAGE HEADER
-      ===================================================== */}
+      {/* PAGE HEADER */}
 
       <PageHead
         title="Contact"
@@ -86,29 +84,24 @@ export default function Contact() {
         text="Questions about a trip? We are happy to help."
       />
 
-      {/* =====================================================
-          CONTACT SECTION
-      ===================================================== */}
+      {/* CONTACT SECTION */}
 
-      <section className="section">
+      <section
+        className="section"
+        aria-label="Contact Gupta Cab Service"
+      >
         <div className="container split contact-split">
-
-          {/* =================================================
-              LEFT SIDE
-          ================================================= */}
+          {/* LEFT SIDE */}
 
           <div className="contact-left">
-
-            {/* ===============================================
-                CONTACT INFORMATION
-            =============================================== */}
+            {/* CONTACT INFORMATION */}
 
             <div className="contact-info-list">
               {info.map(
-                ([Icon, title, value, href], i) => (
+                ([Icon, title, value, href], index) => (
                   <Reveal
                     key={title}
-                    delay={i * 0.08}
+                    delay={index * 0.08}
                   >
                     <a
                       className="info"
@@ -118,19 +111,29 @@ export default function Contact() {
                           ? "_blank"
                           : undefined
                       }
-                      rel="noreferrer"
+                      rel={
+                        href.startsWith("http")
+                          ? "noreferrer"
+                          : undefined
+                      }
+                      aria-label={`${title}: ${value}`}
                     >
-                      <div className="ico">
+                      <div
+                        className="ico"
+                        aria-hidden="true"
+                      >
                         <Icon />
                       </div>
 
                       <div className="info-content">
                         <small>{title}</small>
-
                         <b>{value}</b>
                       </div>
 
-                      <span className="info-arrow">
+                      <span
+                        className="info-arrow"
+                        aria-hidden="true"
+                      >
                         <FaArrowRight />
                       </span>
                     </a>
@@ -139,14 +142,14 @@ export default function Contact() {
               )}
             </div>
 
-            {/* ===============================================
-                CONTACT PERSON
-            =============================================== */}
+            {/* CONTACT PERSON */}
 
             <Reveal delay={0.3}>
               <div className="contact-person-card">
-
-                <div className="person-icon">
+                <div
+                  className="person-icon"
+                  aria-hidden="true"
+                >
                   <FaUser />
                 </div>
 
@@ -161,20 +164,18 @@ export default function Contact() {
                     or any questions about your trip.
                   </p>
                 </div>
-
               </div>
             </Reveal>
 
-            {/* ===============================================
-                INSTAGRAM
-            =============================================== */}
+            {/* INSTAGRAM */}
 
             <Reveal delay={0.38}>
               <div className="instagram-card">
-
                 <div className="instagram-card-top">
-
-                  <div className="instagram-icon">
+                  <div
+                    className="instagram-icon"
+                    aria-hidden="true"
+                  >
                     <FaInstagram />
                   </div>
 
@@ -185,7 +186,6 @@ export default function Contact() {
                       Gupta Cab Service Official
                     </h3>
                   </div>
-
                 </div>
 
                 <p className="instagram-text">
@@ -199,34 +199,28 @@ export default function Contact() {
                   target="_blank"
                   rel="noreferrer"
                   className="instagram-follow-btn"
+                  aria-label="Follow Gupta Cab Service on Instagram"
                 >
                   <span>
                     @travel_with_raunak_
                   </span>
 
-                  <FaArrowRight />
+                  <FaArrowRight aria-hidden="true" />
                 </a>
-
               </div>
             </Reveal>
-
           </div>
 
-          {/* =================================================
-              RIGHT SIDE — CONTACT FORM
-          ================================================= */}
+          {/* RIGHT SIDE — CONTACT FORM */}
 
           <Reveal delay={0.1}>
             <form
               className="form"
               onSubmit={onSubmit}
+              aria-label="Contact Gupta Cab Service"
             >
-
               <div className="fgrid">
-
-                {/* ===========================================
-                    FULL NAME
-                =========================================== */}
+                {/* FULL NAME */}
 
                 <FormField label="Full Name">
                   <input
@@ -240,9 +234,7 @@ export default function Contact() {
                   />
                 </FormField>
 
-                {/* ===========================================
-                    PHONE
-                =========================================== */}
+                {/* PHONE */}
 
                 <FormField label="Phone">
                   <input
@@ -256,9 +248,7 @@ export default function Contact() {
                   />
                 </FormField>
 
-                {/* ===========================================
-                    EMAIL
-                =========================================== */}
+                {/* EMAIL */}
 
                 <FormField
                   label="Email"
@@ -275,9 +265,7 @@ export default function Contact() {
                   />
                 </FormField>
 
-                {/* ===========================================
-                    SUBJECT
-                =========================================== */}
+                {/* SUBJECT */}
 
                 <FormField
                   label="Subject"
@@ -293,9 +281,7 @@ export default function Contact() {
                   />
                 </FormField>
 
-                {/* ===========================================
-                    MESSAGE
-                =========================================== */}
+                {/* MESSAGE */}
 
                 <FormField
                   label="Message"
@@ -311,9 +297,7 @@ export default function Contact() {
                   />
                 </FormField>
 
-                {/* ===========================================
-                    SUBMIT
-                =========================================== */}
+                {/* SUBMIT */}
 
                 <div className="full">
                   <button
@@ -321,19 +305,16 @@ export default function Contact() {
                     className="btn btn-gold submit"
                     disabled={busy}
                   >
-                    <FaPaperPlane />
+                    <FaPaperPlane aria-hidden="true" />
 
                     {busy
                       ? "Sending…"
                       : "Send Message"}
                   </button>
                 </div>
-
               </div>
-
             </form>
           </Reveal>
-
         </div>
       </section>
     </>

@@ -1,12 +1,24 @@
 import "./PageHead.css";
 
-export default function PageHead({ title, highlight, text }) {
+export default function PageHead({
+  title,
+  highlight,
+  text,
+}) {
   return (
-    <div className="page-head">
+    <header
+      className="page-head"
+      aria-labelledby="page-title"
+    >
       <div className="container rise">
-        <h1>{title} <span>{highlight}</span></h1>
-        <p className="lead">{text}</p>
+        <h1 id="page-title">
+          {title} <span>{highlight}</span>
+        </h1>
+
+        <p className="lead">
+          {text}
+        </p>
       </div>
-    </div>
+    </header>
   );
 }

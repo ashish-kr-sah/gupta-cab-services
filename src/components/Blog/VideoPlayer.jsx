@@ -1,38 +1,150 @@
 import { useEffect, useRef, useState } from "react";
-import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+
+import {
+  FaPlay,
+  FaPause,
+  FaVolumeMute,
+  FaVolumeUp,
+} from "react-icons/fa";
+
 import "./VideoPlayer.css";
 
-// Apni mp4 video ke liye – play/pause, mute, progress bar (click karke aage-peeche)
 export default function VideoPlayer({ src, poster }) {
-  const video = useRef();
-  const bar = useRef();
+  const video = useRef(null);
+  const bar = useRef(null);
+
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(true);
 
-  // Scroll karke bahar jaane par video apne aap pause ho jati hai
+  // Video automatically pauses when it leaves the viewport.
   useEffect(() => {
-    if (!("IntersectionObserver" in window)) return;
-    const io = new IntersectionObserver(([e]) => { if (!e.isIntersecting) video.current?.pause(); }, { threshold: 0.25 });
-    io.observe(video.current);
-    return () => io.disconnect();
+    if (!("IntersectionObserver" in window)) {
+      return;
+    }
+
+    const element = video.current;
+
+    if (!element) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) {
+          element.pause();
+        }
+      },
+      {
+        threshold: 0.25,
+      }
+    );
+
+    observer.observe(element);
+
+    return () => {
+      observer.disconnect();
+    };
   }, []);
 
-  const toggle = () => (playing ? video.current.pause() : video.current.play());
-  const update = () => { const v = video.current; bar.current.style.width = `${(v.currentTime / v.duration) * 100 || 0}%`; };
-  const seek = (e) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    video.current.currentTime = ((e.clientX - r.left) / r.width) * video.current.duration;
+  const toggle = () => {
+    const element = video.current;
+
+    if (!element) {
+      return;
+    }
+
+    if (element.paused) {
+      element.play().catch(() => {});
+    } else {
+      element.pause();
+    }
+  };
+
+  const update = () => {
+    const element = video.current;
+    const progress = bar.current;
+
+    if (!element || !progress) {
+      return;
+    }
+
+    const percentage =
+      element.duration > 0
+        ? (element.currentTime / element.duration) * 100
+        : 0;
+
+    progress.style.width = `${percentage}%`;
+  };
+
+  const seek = (event) => {
+    const element = video.current;
+
+    if (!element || !element.duration) {
+      return;
+    }
+
+    const rect =
+      event.currentTarget.getBoundingClientRect();
+
+    const position =
+      (event.clientX - rect.left) / rect.width;
+
+    element.currentTime =
+      Math.max(0, Math.min(1, position)) *
+      element.duration;
   };
 
   return (
     <div className="vp">
-      <video ref={video} src={src} poster={poster} muted={muted} loop playsInline preload="metadata"
-        onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onTimeUpdate={update} onClick={toggle} />
-      <button className={`vp-play ${playing ? "is-playing" : ""}`} onClick={toggle} aria-label={playing ? "Pause" : "Play"}>
-        <span>{playing ? <FaPause /> : <FaPlay />}</span>
+      <video
+        ref={video}
+        src={src}
+        poster={poster}
+        muted={muted}
+        loop
+        playsInline
+        preload="metadata"
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+        onTimeUpdate={update}
+        onClick={toggle}
+        aria-label="Gupta Cab Service travel video"
+      />
+
+      <button
+        type="button"
+        className={`vp-play ${
+          playing ? "is-playing" : ""
+        }`}
+        onClick={toggle}
+        aria-label={playing ? "Pause video" : "Play video"}
+      >
+        <span aria-hidden="true">
+          {playing ? <FaPause /> : <FaPlay />}
+        </span>
       </button>
-      <button className="vp-mute" onClick={() => setMuted(!muted)} aria-label="Sound">{muted ? <FaVolumeMute /> : <FaVolumeUp />}</button>
-      <div className="vp-bar" onClick={seek}><i ref={bar} /></div>
+
+      <button
+        type="button"
+        className="vp-mute"
+        onClick={() => setMuted((value) => !value)}
+        aria-label={muted ? "Unmute video" : "Mute video"}
+      >
+        <span aria-hidden="true">
+          {muted ? <FaVolumeMute /> : <FaVolumeUp />}
+        </span>
+      </button>
+
+      <div
+        className="vp-bar"
+        onClick={seek}
+        role="slider"
+        aria-label="Video progress"
+        aria-valuemin="0"
+        aria-valuemax="100"
+      >
+        <i ref={bar} />
+      </div>
     </div>
   );
 }

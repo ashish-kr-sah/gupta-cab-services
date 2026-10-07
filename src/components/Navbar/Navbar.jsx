@@ -1,11 +1,18 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
+
 import {
   HiMenuAlt3,
   HiX,
   HiArrowRight,
 } from "react-icons/hi";
-import { BRAND, TAGLINE, NAV_LINKS } from "../../site";
+
+import {
+  BRAND,
+  TAGLINE,
+  NAV_LINKS,
+} from "../../site";
+
 import "./Navbar.css";
 
 export default function Navbar() {
@@ -25,13 +32,14 @@ export default function Navbar() {
 
     handleScroll();
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, {
+      passive: true,
+    });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
 
   /* =========================================
      CLOSE MENU WHEN ROUTE CHANGES
@@ -41,7 +49,6 @@ export default function Navbar() {
     setOpen(false);
     window.scrollTo(0, 0);
   }, [pathname]);
-
 
   /* =========================================
      BODY SCROLL LOCK
@@ -59,27 +66,33 @@ export default function Navbar() {
     };
   }, [open]);
 
-
   /* =========================================
      ESC KEY
   ========================================= */
 
   useEffect(() => {
+    if (!open) {
+      return;
+    }
+
     const handleEscape = (event) => {
       if (event.key === "Escape") {
         setOpen(false);
       }
     };
 
-    if (open) {
-      document.addEventListener("keydown", handleEscape);
-    }
+    document.addEventListener(
+      "keydown",
+      handleEscape
+    );
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      document.removeEventListener(
+        "keydown",
+        handleEscape
+      );
     };
   }, [open]);
-
 
   /* =========================================
      CLOSE MENU
@@ -89,7 +102,6 @@ export default function Navbar() {
     setOpen(false);
   };
 
-
   /* =========================================
      TOGGLE MENU
   ========================================= */
@@ -98,14 +110,12 @@ export default function Navbar() {
     setOpen((prev) => !prev);
   };
 
-
   return (
     <header
       className={`nav ${solid ? "solid" : ""} ${
         open ? "menu-active" : ""
       }`}
     >
-
       <div className="container">
 
         {/* =====================================
@@ -116,10 +126,14 @@ export default function Navbar() {
           to="/"
           className="brand"
           onClick={closeMenu}
+          aria-label={`${BRAND} home`}
         >
           <img
             src="/images/logo.png"
             alt={`${BRAND} logo`}
+            width="120"
+            height="120"
+            decoding="async"
           />
 
           <span>
@@ -128,21 +142,28 @@ export default function Navbar() {
           </span>
         </Link>
 
-
         {/* =====================================
             MOBILE MENU BUTTON
         ===================================== */}
 
         <button
           type="button"
-          className={`burger ${open ? "is-open" : ""}`}
-          aria-label={open ? "Close menu" : "Open menu"}
+          className={`burger ${
+            open ? "is-open" : ""
+          }`}
+          aria-label={
+            open ? "Close navigation menu" : "Open navigation menu"
+          }
           aria-expanded={open}
+          aria-controls="mobile-navigation-menu"
           onClick={toggleMenu}
         >
-          {open ? <HiX /> : <HiMenuAlt3 />}
+          {open ? (
+            <HiX aria-hidden="true" />
+          ) : (
+            <HiMenuAlt3 aria-hidden="true" />
+          )}
         </button>
-
 
         {/* =====================================
             MOBILE OVERLAY
@@ -156,12 +177,12 @@ export default function Navbar() {
           aria-hidden="true"
         />
 
-
         {/* =====================================
-            NAVIGATION
+            MOBILE NAVIGATION
         ===================================== */}
 
         <div
+          id="mobile-navigation-menu"
           className={`mobile-menu ${
             open ? "open" : ""
           }`}
@@ -172,76 +193,84 @@ export default function Navbar() {
           =================================== */}
 
           <div className="mobile-menu-top">
-
             <div className="mobile-menu-brand">
-
               <img
                 src="/images/logo.png"
                 alt={`${BRAND} logo`}
+                width="80"
+                height="80"
+                decoding="async"
               />
 
               <div>
                 <strong>{BRAND}</strong>
                 <span>{TAGLINE}</span>
               </div>
-
             </div>
 
             <span className="mobile-menu-label">
               MENU
             </span>
-
           </div>
-
 
           {/* ===================================
               GOLD LINE
           =================================== */}
 
-          <div className="mobile-menu-line"></div>
-
+          <div
+            className="mobile-menu-line"
+            aria-hidden="true"
+          />
 
           {/* ===================================
               NAVIGATION LINKS
           =================================== */}
 
-          <nav className="mobile-navigation">
+          <nav
+            className="mobile-navigation"
+            aria-label="Mobile navigation"
+          >
+            {NAV_LINKS.map(
+              ([to, label], index) => (
+                <NavLink
+                  key={to}
+                  to={to}
+                  end={to === "/"}
+                  onClick={closeMenu}
+                  className={({ isActive }) =>
+                    `mobile-nav-link ${
+                      isActive ? "active" : ""
+                    }`
+                  }
+                >
+                  <span
+                    className="mobile-nav-number"
+                    aria-hidden="true"
+                  >
+                    {String(index + 1).padStart(
+                      2,
+                      "0"
+                    )}
+                  </span>
 
-            {NAV_LINKS.map(([to, label], index) => (
-              <NavLink
-                key={to}
-                to={to}
-                end={to === "/"}
-                onClick={closeMenu}
-                className={({ isActive }) =>
-                  `mobile-nav-link ${
-                    isActive ? "active" : ""
-                  }`
-                }
-              >
+                  <span className="mobile-nav-text">
+                    {label}
+                  </span>
 
-                <span className="mobile-nav-number">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <span className="mobile-nav-text">
-                  {label}
-                </span>
-
-                <HiArrowRight className="mobile-nav-arrow" />
-
-              </NavLink>
-            ))}
-
+                  <HiArrowRight
+                    className="mobile-nav-arrow"
+                    aria-hidden="true"
+                  />
+                </NavLink>
+              )
+            )}
           </nav>
-
 
           {/* ===================================
               BOOKING BUTTON
           =================================== */}
 
           <div className="mobile-booking">
-
             <Link
               to="/booking"
               className="mobile-book-btn"
@@ -249,69 +278,63 @@ export default function Navbar() {
             >
               <span>Book Your Journey</span>
 
-              <HiArrowRight />
+              <HiArrowRight aria-hidden="true" />
             </Link>
-
           </div>
-
 
           {/* ===================================
               FOOTER
           =================================== */}
 
           <div className="mobile-menu-footer">
-            <span>
-              Explore Sikkim
-            </span>
+            <span>Explore Sikkim</span>
 
-            <span className="footer-dot">
+            <span
+              className="footer-dot"
+              aria-hidden="true"
+            >
               •
             </span>
 
-            <span>
-              Travel With Us
-            </span>
+            <span>Travel With Us</span>
           </div>
-
         </div>
-
 
         {/* =====================================
             DESKTOP NAVIGATION
         ===================================== */}
 
-        <ul className="links">
+        <nav aria-label="Main navigation">
+          <ul className="links">
+            {NAV_LINKS.map(
+              ([to, label]) => (
+                <li key={to}>
+                  <NavLink
+                    to={to}
+                    end={to === "/"}
+                    className={({ isActive }) =>
+                      isActive ? "active" : ""
+                    }
+                  >
+                    {label}
+                  </NavLink>
+                </li>
+              )
+            )}
 
-          {NAV_LINKS.map(([to, label]) => (
-            <li key={to}>
-
-              <NavLink
-                to={to}
-                end={to === "/"}
-                className={({ isActive }) =>
-                  isActive ? "active" : ""
-                }
+            <li>
+              <Link
+                to="/booking"
+                className="btn btn-gold book"
+                aria-label="Book a cab with Gupta Cab Service"
               >
-                {label}
-              </NavLink>
-
+                Book Now
+              </Link>
             </li>
-          ))}
-
-
-          <li>
-            <Link
-              to="/booking"
-              className="btn btn-gold book"
-            >
-              Book Now
-            </Link>
-          </li>
-
-        </ul>
+          </ul>
+        </nav>
 
       </div>
-
     </header>
   );
 }

@@ -9,17 +9,18 @@ import "./Destinations.css";
 
 export default function Destinations() {
   return (
-    <section className="section alt">
+    <section
+      className="section alt"
+      aria-labelledby="popular-tours-title"
+    >
       <div className="container">
-
-        {/* SECTION HEADING */}
         <SectionHead
           eyebrow="Destinations"
           title="Popular"
           highlight="Tours"
+          id="popular-tours-title"
         />
 
-        {/* DESTINATION GRID */}
         <div className="grid g4">
           {POPULAR_DESTINATIONS.map((destination, i) => (
             <Reveal
@@ -29,11 +30,15 @@ export default function Destinations() {
               <Link
                 to="/booking"
                 className="dest"
+                aria-label={`Book a cab for ${destination.name}`}
               >
                 <img
                   src={destination.image}
-                  alt={destination.name}
+                  alt={`${destination.name} cab service - Gupta Cab Service`}
                   loading="lazy"
+                  decoding="async"
+                  width="800"
+                  height="600"
                 />
 
                 <div>
@@ -47,7 +52,6 @@ export default function Destinations() {
             </Reveal>
           ))}
         </div>
-
       </div>
     </section>
   );
