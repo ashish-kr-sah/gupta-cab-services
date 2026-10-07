@@ -6,10 +6,17 @@ import Lightbox from "../../components/Lightbox/Lightbox";
 
 import "./Gallery.css";
 
-const IMAGES = Array.from(
+const OLD_IMAGES = Array.from(
   { length: 12 },
   (_, i) => `/images/g${i + 1}.jpeg`
 );
+
+const NEW_IMAGES = Array.from(
+  { length: 18 },
+  (_, i) => `/images/i${i + 1}.jpeg`
+);
+
+const IMAGES = [...OLD_IMAGES, ...NEW_IMAGES];
 
 export default function Gallery() {
   const [selectedIndex, setSelectedIndex] = useState(null);
