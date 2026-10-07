@@ -1,4 +1,4 @@
-export const STATS = [["2+", "Years Experience"], ["500+", "Happy Travellers"], ["25+", "Destinations"], ["24×7", "Support"]];
+export const STATS = [["4+", "Years Experience"], ["500+", "Happy Travellers"], ["25+", "Destinations"], ["24×7", "Support"]];
 
 export const WHY = [
   ["shield", "Safe & Insured", "Verified, experienced drivers and well-maintained cabs."],
