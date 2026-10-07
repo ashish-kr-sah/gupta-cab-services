@@ -1,6 +1,5 @@
 // =========================================================
 // BUSINESS DETAILS
-// Ek jagah change karo, poori website me update ho jayega
 // =========================================================
 
 export const BRAND = "Gupta Cab Service";
@@ -37,7 +36,6 @@ export const NAV_LINKS = [
 
 // =========================================================
 // DESTINATIONS
-// Used in Booking Form + Destination Sections
 // =========================================================
 
 export const DESTINATIONS = [
@@ -71,132 +69,75 @@ export const DESTINATIONS = [
 
 export const DESTINATION_IMAGES = {
   "Gangtok": "/images/d1.webp",
-
   "Tsomgo Lake": "/images/d2.webp",
-
   "Nathula Pass": "/images/d3.webp",
-
   "Lachung": "/images/d4.webp",
 };
 
 
 // =========================================================
 // POPULAR TOUR DESTINATIONS
-// Ye Home / Destinations section me use kar sakte ho
+// Home → Popular Tours
 // =========================================================
 
 export const POPULAR_DESTINATIONS = [
   {
     name: "Gangtok",
-    image: "/images/d1.webp",
+    image: "/images/dp1.jpeg",
   },
 
   {
     name: "Tsomgo Lake",
-    image: "/images/d2.webp",
+    image: "/images/dp2.jpeg",
   },
 
   {
     name: "Nathula Pass",
-    image: "/images/d3.webp",
+    image: "/images/dp3.jpeg",
   },
 
   {
     name: "Lachung",
-    image: "/images/d4.webp",
+    image: "/images/dp4.jpeg",
   },
 ];
 
 
 // =========================================================
 // CAB / CAR TYPES
-// Booking Form ke dropdown me show honge
 // =========================================================
 
 export const CAB_TYPES = [
-
-  // -------------------------
-  // MARUTI SUZUKI
-  // -------------------------
-
   "Maruti Suzuki WagonR",
-
   "Maruti Suzuki Swift",
-
   "Maruti Suzuki Dzire",
-
   "Maruti Suzuki Ertiga",
-
   "Maruti Suzuki XL6",
-
   "Maruti Suzuki Brezza",
 
-
-  // -------------------------
-  // HYUNDAI
-  // -------------------------
-
   "Hyundai Grand i10 Nios",
-
   "Hyundai Aura",
-
   "Hyundai Venue",
-
   "Hyundai Creta",
-
   "Hyundai Alcazar",
 
-
-  // -------------------------
-  // TOYOTA
-  // -------------------------
-
   "Toyota Innova",
-
   "Toyota Innova Crysta",
-
   "Toyota Rumion",
-
   "Toyota Fortuner",
 
-
-  // -------------------------
-  // MAHINDRA
-  // -------------------------
-
   "Mahindra Bolero",
-
   "Mahindra Scorpio",
-
   "Mahindra Scorpio N",
-
   "Mahindra XUV700",
 
-
-  // -------------------------
-  // KIA
-  // -------------------------
-
   "Kia Carens",
-
   "Kia Seltos",
 
-
-  // -------------------------
-  // TRAVELLER
-  // -------------------------
-
   "Force Traveller",
-
   "Tempo Traveller",
 
-
-  // -------------------------
-  // OTHER
-  // -------------------------
-
   "Luxury Car",
-
   "Other / Not Sure",
 ];
 

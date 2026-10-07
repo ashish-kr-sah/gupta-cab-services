@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import SectionHead from "../../components/SectionHead/SectionHead";
 import Reveal from "../../components/Reveal/Reveal";
 
-import { FEATURED_DESTS } from "../../data/content";
+import { POPULAR_DESTINATIONS } from "../../site";
 
 import "./Destinations.css";
 
@@ -21,9 +21,9 @@ export default function Destinations() {
 
         {/* DESTINATION GRID */}
         <div className="grid g4">
-          {FEATURED_DESTS.map(([name, img], i) => (
+          {POPULAR_DESTINATIONS.map((destination, i) => (
             <Reveal
-              key={name}
+              key={destination.name}
               delay={i * 0.1}
             >
               <Link
@@ -31,13 +31,13 @@ export default function Destinations() {
                 className="dest"
               >
                 <img
-                  src={`/images/${img}`}
-                  alt={name}
+                  src={destination.image}
+                  alt={destination.name}
                   loading="lazy"
                 />
 
                 <div>
-                  <h3>{name}</h3>
+                  <h3>{destination.name}</h3>
 
                   <p>
                     Tap to book this trip →
