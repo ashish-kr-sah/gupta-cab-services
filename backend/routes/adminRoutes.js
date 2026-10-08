@@ -1,47 +1,78 @@
 const express = require("express");
-const router = express.Router();
+
+const authMiddleware = require("../middleware/authMiddleware");
 
 const {
   createAdmin,
   loginAdmin,
   dashboard,
+  getAdminBookings,
+  deleteBooking,
+  getAdminContacts,
+  deleteContact,
 } = require("../controllers/adminController");
 
-const authMiddleware = require("../middleware/authMiddleware");
+const {
+  getAdminReviews,
+  deleteReview,
+} = require("../controllers/adminReviewController");
 
+const router = express.Router();
 
-// Test Route
-router.get("/test", (req, res) => {
-  res.send("Admin Route Working");
-});
+// ADMIN AUTH
 
+router.post("/register", createAdmin);
 
-// Create Admin
-router.post("/register", authMiddleware, createAdmin); // only a logged-in admin can add admins
-
-
-// Login Admin
 router.post("/login", loginAdmin);
 
+// DASHBOARD
 
-// Protected Profile Route
-router.get("/profile", authMiddleware, (req, res) => {
+router.get(
+  "/dashboard",
+  authMiddleware,
+  dashboard
+);
 
-  res.json({
+// BOOKINGS
 
-    success: true,
+router.get(
+  "/booking",
+  authMiddleware,
+  getAdminBookings
+);
 
-    message: "Admin Profile Access Granted",
+router.delete(
+  "/booking/:id",
+  authMiddleware,
+  deleteBooking
+);
 
-    admin: req.admin,
+// CONTACTS
 
-  });
+router.get(
+  "/contact",
+  authMiddleware,
+  getAdminContacts
+);
 
-});
+router.delete(
+  "/contact/:id",
+  authMiddleware,
+  deleteContact
+);
 
+// REVIEWS
 
-// Admin Dashboard
-router.get("/dashboard", authMiddleware, dashboard);
+router.get(
+  "/reviews",
+  authMiddleware,
+  getAdminReviews
+);
 
+router.delete(
+  "/reviews/:id",
+  authMiddleware,
+  deleteReview
+);
 
 module.exports = router;

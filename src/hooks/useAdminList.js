@@ -1,28 +1,113 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { api, auth } from "../api";
 
-// Admin ke bookings / contacts list + delete ka common logic
 export default function useAdminList(path) {
-  const navigate = useNavigate();
-  const [rows, setRows] = useState(null);
+  const [rows, setRows] = useState([]);
 
-  const load = async () => {
-    try {
-      const { data } = await api.get(path, auth());
-      setRows(data.data);
-    } catch (e) {
-      if (e.response?.status === 401) { localStorage.removeItem("token"); navigate("/admin/login"); }
-      else { toast.error("Data load nahi hua – DB connection check karein"); setRows([]); }
-    }
-  };
-  useEffect(() => { load(); }, []);
+  // ==================================================
+  // ADMIN API PATH
+  // ==================================================
+  // Reviews ke liye admin endpoint force karenge.
+  // Bookings / Contacts apne existing endpoints use karenge.
+
+  const adminPath =
+    path === "/reviews"
+      ? "/admin/reviews"
+      : path;
+
+  // ==================================================
+  // LOAD DATA
+  // ==================================================
+
+  useEffect(() => {
+    let active = true;
+
+    const load = async () => {
+      try {
+        console.log(
+          "📥 Admin GET:",
+          `/api${adminPath}`
+        );
+
+        const response = await api.get(
+          adminPath,
+          auth()
+        );
+
+        if (!active) {
+          return;
+        }
+
+        setRows(
+          response?.data?.data || []
+        );
+      } catch (error) {
+        console.error(
+          "❌ Admin list error:",
+          error
+        );
+
+        if (active) {
+          setRows([]);
+        }
+      }
+    };
+
+    load();
+
+    return () => {
+      active = false;
+    };
+  }, [adminPath]);
+
+  // ==================================================
+  // DELETE DATA
+  // ==================================================
 
   const remove = async (id) => {
-    if (!confirm("Delete karna hai?")) return;
-    try { await api.delete(`${path}/${id}`, auth()); toast.success("Deleted"); load(); }
-    catch { toast.error("Delete failed"); }
+    try {
+      if (!id) {
+        alert("Invalid item ID.");
+        return;
+      }
+
+      const deletePath =
+        `${adminPath}/${id}`;
+
+      console.log(
+        "🗑️ Admin DELETE:",
+        `/api${deletePath}`
+      );
+
+      await api.delete(
+        deletePath,
+        auth()
+      );
+
+      // Remove from table immediately
+      setRows((previousRows) =>
+        previousRows.filter(
+          (item) => item.id !== id
+        )
+      );
+
+      console.log(
+        "✅ Item deleted successfully:",
+        id
+      );
+    } catch (error) {
+      console.error(
+        "❌ Admin delete error:",
+        error
+      );
+
+      alert(
+        error?.response?.data?.message ||
+          error?.message ||
+          "Failed to delete item."
+      );
+    }
   };
+
   return [rows, remove];
 }

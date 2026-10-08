@@ -1,5 +1,326 @@
-.quote{position:relative}.quote:before{content:"“";position:absolute;top:-4px;right:22px;font-size:6rem;color:var(--gold);opacity:.2;font-family:serif}
-.stars{color:var(--gold);margin-bottom:10px}
-.who{display:flex;gap:12px;align-items:center;margin-top:18px}
-.who i{width:44px;height:44px;border-radius:50%;background:var(--gold);color:var(--navy2);display:grid;place-items:center;font-weight:700;font-style:normal}
-.who small{color:var(--muted)}
+.quote {
+  position: relative;
+}
+
+.quote:before {
+  content: "“";
+  position: absolute;
+  top: -4px;
+  right: 22px;
+  font-size: 6rem;
+  color: var(--gold);
+  opacity: 0.2;
+  font-family: serif;
+}
+
+.stars {
+  color: var(--gold);
+  margin-bottom: 10px;
+}
+
+.who {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.who i {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--navy2);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.who small {
+  color: var(--muted);
+}
+
+
+/* =========================
+   Reviews Slider
+========================= */
+
+.reviews-slider {
+  position: relative;
+  width: 100%;
+}
+
+.reviews-slider-track {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.reviews-slider-card {
+  min-width: 0;
+}
+
+.reviews-slider-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.reviews-slider-btn {
+  width: 42px;
+  height: 42px;
+  border: 1px solid var(--gold);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--gold);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.reviews-slider-btn:hover {
+  background: var(--gold);
+  color: var(--navy2);
+}
+
+.reviews-slider-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.reviews-slider-dots {
+  display: flex;
+  justify-content: center;
+  gap: 7px;
+}
+
+.reviews-slider-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--muted);
+  opacity: 0.45;
+  cursor: pointer;
+}
+
+.reviews-slider-dot.active {
+  background: var(--gold);
+  opacity: 1;
+}
+
+
+/* =========================
+   Write Review Button
+========================= */
+
+.write-review-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.write-review-btn {
+  border: 1px solid var(--gold);
+  background: var(--gold);
+  color: var(--navy2);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.write-review-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.92;
+}
+
+
+/* =========================
+   Compact Review Modal
+========================= */
+
+.review-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+}
+
+.review-modal {
+  width: min(400px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--navy2);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 18px;
+  position: relative;
+}
+
+.review-modal-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--muted);
+  font-size: 19px;
+  cursor: pointer;
+}
+
+.review-modal-close:hover {
+  color: var(--gold);
+}
+
+.review-modal h3 {
+  margin: 0 0 14px;
+  font-size: 20px;
+}
+
+
+/* =========================
+   Review Form
+========================= */
+
+.review-form {
+  display: grid;
+  gap: 11px;
+}
+
+.review-form-group {
+  display: grid;
+  gap: 5px;
+}
+
+.review-form-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.review-form-group input,
+.review-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 7px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+.review-form-group textarea {
+  min-height: 75px;
+  resize: vertical;
+}
+
+.review-form-group input:focus,
+.review-form-group textarea:focus {
+  border-color: var(--gold);
+}
+
+
+/* =========================
+   Rating
+========================= */
+
+.review-rating {
+  display: flex;
+  gap: 4px;
+}
+
+.review-rating button {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 21px;
+  cursor: pointer;
+}
+
+.review-rating button.active {
+  color: var(--gold);
+}
+
+
+/* =========================
+   Submit Button
+========================= */
+
+.review-submit-btn {
+  width: 100%;
+  border: 0;
+  background: var(--gold);
+  color: var(--navy2);
+  padding: 9px 15px;
+  border-radius: 7px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.review-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.review-form-message {
+  font-size: 12px;
+  margin: 0;
+}
+
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 900px) {
+  .reviews-slider-track {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .reviews-slider-track {
+    grid-template-columns: 1fr;
+  }
+
+  .review-modal {
+    width: min(360px, 100%);
+    padding: 16px;
+  }
+
+  .review-modal h3 {
+    font-size: 18px;
+    margin-bottom: 12px;
+  }
+
+  .review-form {
+    gap: 9px;
+  }
+
+  .review-form-group input,
+  .review-form-group textarea {
+    padding: 8px 9px;
+  }
+
+  .review-form-group textarea {
+    min-height: 65px;
+  }
+}

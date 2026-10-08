@@ -11,6 +11,7 @@ const sequelize = require("./config/db");
 require("./models/Contact");
 require("./models/Booking");
 require("./models/Admin");
+require("./models/Review");
 
 // ==========================
 // Import Routes
@@ -19,6 +20,7 @@ require("./models/Admin");
 const contactRoutes = require("./routes/contactRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
 const adminRoutes = require("./routes/adminRoutes");
+const reviewRoutes = require("./routes/reviewRoutes");
 
 const app = express();
 
@@ -61,7 +63,9 @@ app.use(
         return callback(null, true);
       }
 
-      return callback(new Error("CORS: Origin not allowed"));
+      return callback(
+        new Error("CORS: Origin not allowed")
+      );
     },
 
     credentials: true,
@@ -145,7 +149,10 @@ app.get("/api/health", async (req, res) => {
       environment: process.env.NODE_ENV || "production",
     });
   } catch (error) {
-    console.error("❌ HEALTH CHECK DATABASE ERROR:", error);
+    console.error(
+      "❌ HEALTH CHECK DATABASE ERROR:",
+      error
+    );
 
     res.status(500).json({
       success: false,
@@ -161,8 +168,12 @@ app.get("/api/health", async (req, res) => {
 // ==========================
 
 app.use("/api/contact", contactRoutes);
+
 app.use("/api/booking", bookingRoutes);
+
 app.use("/api/admin", adminRoutes);
+
+app.use("/api/reviews", reviewRoutes);
 
 // ==========================
 // Global Error Handler
@@ -173,7 +184,8 @@ app.use((err, req, res, next) => {
 
   res.status(500).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message:
+      err.message || "Internal Server Error",
   });
 });
 
@@ -184,8 +196,13 @@ app.use((err, req, res, next) => {
 const PORT = Number(process.env.PORT) || 5000;
 
 app.listen(PORT, "0.0.0.0", () => {
-  console.log(`🚀 Backend running on port ${PORT}`);
-  console.log(`🩺 Health check: /api/health`);
+  console.log(
+    `🚀 Backend running on port ${PORT}`
+  );
+
+  console.log(
+    `🩺 Health check: /api/health`
+  );
 });
 
 // ==========================

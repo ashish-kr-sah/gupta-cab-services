@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import SiteLayout from "./components/SiteLayout/SiteLayout";
@@ -6,11 +7,19 @@ import SiteLayout from "./components/SiteLayout/SiteLayout";
 /* ==================== PUBLIC PAGES ==================== */
 
 const Home = lazy(() => import("./pages/Home/Home"));
+
 const About = lazy(() => import("./pages/About/About"));
+
 const Gallery = lazy(() => import("./pages/Gallery/Gallery"));
+
 const Blog = lazy(() => import("./pages/Blog/Blog"));
-const Testimonials = lazy(() => import("./pages/Testimonials/Testimonials"));
+
+const Testimonials = lazy(() =>
+  import("./pages/Testimonials/Testimonials")
+);
+
 const Booking = lazy(() => import("./pages/Booking/Booking"));
+
 const Contact = lazy(() => import("./pages/Contact/Contact"));
 
 /* ==================== SEO PAGES ==================== */
@@ -98,10 +107,26 @@ const SikkimSightseeingTaxi = lazy(() =>
 /* ==================== ADMIN ==================== */
 
 const Login = lazy(() => import("./admin/Login/Login"));
-const AdminLayout = lazy(() => import("./admin/AdminLayout/AdminLayout"));
-const Dashboard = lazy(() => import("./admin/Dashboard/Dashboard"));
-const Bookings = lazy(() => import("./admin/Bookings/Bookings"));
-const Contacts = lazy(() => import("./admin/Contacts/Contacts"));
+
+const AdminLayout = lazy(() =>
+  import("./admin/AdminLayout/AdminLayout")
+);
+
+const Dashboard = lazy(() =>
+  import("./admin/Dashboard/Dashboard")
+);
+
+const Bookings = lazy(() =>
+  import("./admin/Bookings/Bookings")
+);
+
+const Contacts = lazy(() =>
+  import("./admin/Contacts/Contacts")
+);
+
+const Reviews = lazy(() =>
+  import("./admin/Reviews/Reviews")
+);
 
 /* ==================== AUTH GUARD ==================== */
 
@@ -143,19 +168,40 @@ export default function App() {
 
           {/* Main Pages */}
 
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={<Home />}
+          />
 
-          <Route path="/about" element={<About />} />
+          <Route
+            path="/about"
+            element={<About />}
+          />
 
-          <Route path="/gallery" element={<Gallery />} />
+          <Route
+            path="/gallery"
+            element={<Gallery />}
+          />
 
-          <Route path="/blog" element={<Blog />} />
+          <Route
+            path="/blog"
+            element={<Blog />}
+          />
 
-          <Route path="/testimonials" element={<Testimonials />} />
+          <Route
+            path="/testimonials"
+            element={<Testimonials />}
+          />
 
-          <Route path="/booking" element={<Booking />} />
+          <Route
+            path="/booking"
+            element={<Booking />}
+          />
 
-          <Route path="/contact" element={<Contact />} />
+          <Route
+            path="/contact"
+            element={<Contact />}
+          />
 
           {/* ==================== SEO PAGES ==================== */}
 
@@ -296,6 +342,11 @@ export default function App() {
           <Route
             path="contacts"
             element={<Contacts />}
+          />
+
+          <Route
+            path="reviews"
+            element={<Reviews />}
           />
         </Route>
 

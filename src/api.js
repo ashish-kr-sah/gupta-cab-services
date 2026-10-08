@@ -1,24 +1,43 @@
-// API configuration
-
 const API_URL =
   import.meta.env.VITE_API_URL ||
   `${window.location.protocol}//${window.location.hostname}:5000`;
 
 export const API = API_URL.replace(/\/$/, "");
 
-/* ==================== REQUEST HELPER ==================== */
+// ==========================================
+// REQUEST
+// ==========================================
 
-const request = async (method, path, body, options = {}) => {
-  const response = await fetch(`${API}/api${path}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options.headers || {}),
-    },
-    body: body !== undefined ? JSON.stringify(body) : undefined,
-  });
+const request = async (
+  method,
+  path,
+  body,
+  options = {}
+) => {
+  const response = await fetch(
+    `${API}/api${path}`,
+    {
+      method,
 
-  let data;
+      headers: {
+        ...(body !== undefined
+          ? {
+              "Content-Type":
+                "application/json",
+            }
+          : {}),
+
+        ...(options.headers || {}),
+      },
+
+      body:
+        body !== undefined
+          ? JSON.stringify(body)
+          : undefined,
+    }
+  );
+
+  let data = {};
 
   try {
     data = await response.json();
@@ -28,7 +47,9 @@ const request = async (method, path, body, options = {}) => {
 
   if (!response.ok) {
     const error = new Error(
-      data?.message || data?.error || `Request failed with status ${response.status}`
+      data?.message ||
+        data?.error ||
+        `Request failed with status ${response.status}`
     );
 
     error.response = {
@@ -46,26 +67,50 @@ const request = async (method, path, body, options = {}) => {
   };
 };
 
-/* ==================== API ==================== */
+// ==========================================
+// API
+// ==========================================
 
 export const api = {
   get(path, options = {}) {
-    return request("GET", path, undefined, options);
+    return request(
+      "GET",
+      path,
+      undefined,
+      options
+    );
   },
 
   post(path, body, options = {}) {
-    return request("POST", path, body, options);
+    return request(
+      "POST",
+      path,
+      body,
+      options
+    );
   },
 
   delete(path, options = {}) {
-    return request("DELETE", path, undefined, options);
+    return request(
+      "DELETE",
+      path,
+      undefined,
+      options
+    );
   },
 };
 
-/* ==================== AUTH ==================== */
+// ==========================================
+// AUTH
+// ==========================================
 
-export const auth = () => ({
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`,
-  },
-});
+export const auth = () => {
+  const token =
+    localStorage.getItem("token");
+
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+};
