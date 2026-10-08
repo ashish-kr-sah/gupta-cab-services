@@ -69,7 +69,7 @@ const AdminLayout = lazy(() => import("./admin/AdminLayout/AdminLayout"));
 const Dashboard = lazy(() => import("./admin/Dashboard/Dashboard"));
 const Bookings = lazy(() => import("./admin/Bookings/Bookings"));
 const Contacts = lazy(() => import("./admin/Contacts/Contacts"));
-const Reviews = lazy(() => import("./admin/Reviews/Reviews"));
+const Reviews = lazy(() => import("./admin/Reviews/AdminReviews"));
 
 /* ==================== AUTH GUARD ==================== */
 
