@@ -1,5 +1,4 @@
 import { lazy, Suspense } from "react";
-
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import SiteLayout from "./components/SiteLayout/SiteLayout";
@@ -106,7 +105,9 @@ const SikkimSightseeingTaxi = lazy(() =>
 
 /* ==================== ADMIN ==================== */
 
-const Login = lazy(() => import("./admin/Login/Login"));
+const Login = lazy(() =>
+  import("./admin/Login/Login")
+);
 
 const AdminLayout = lazy(() =>
   import("./admin/AdminLayout/AdminLayout")
@@ -130,12 +131,13 @@ const Reviews = lazy(() =>
 
 /* ==================== AUTH GUARD ==================== */
 
-const Guard = ({ children }) =>
-  localStorage.getItem("token") ? (
+const Guard = ({ children }) => {
+  return localStorage.getItem("token") ? (
     children
   ) : (
     <Navigate to="/admin/login" replace />
   );
+};
 
 /* ==================== LOADING FALLBACK ==================== */
 
@@ -324,9 +326,15 @@ export default function App() {
             </Guard>
           }
         >
+
           <Route
             index
-            element={<Navigate to="dashboard" replace />}
+            element={
+              <Navigate
+                to="dashboard"
+                replace
+              />
+            }
           />
 
           <Route
@@ -348,13 +356,19 @@ export default function App() {
             path="reviews"
             element={<Reviews />}
           />
+
         </Route>
 
         {/* ==================== UNKNOWN ROUTE ==================== */}
 
         <Route
           path="*"
-          element={<Navigate to="/" replace />}
+          element={
+            <Navigate
+              to="/"
+              replace
+            />
+          }
         />
 
       </Routes>
