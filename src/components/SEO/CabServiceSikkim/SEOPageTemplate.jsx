@@ -255,7 +255,7 @@ export default function SEOPageTemplate({
           name: "Gupta Cab Service",
           url: "https://guptacabservice.co.in/",
           telephone: "+919382324860",
-          email: "ashishkrsahbca@gmail.com",
+          email: "guptacabserviceinfo@gmail.com",
           address: {
             "@type": "PostalAddress",
             addressLocality: "Gangtok",

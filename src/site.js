@@ -14,7 +14,7 @@ export const WHATSAPP =
   "https://wa.me/919382324860";
 
 export const EMAIL =
-  "ashishkrsahbca@gmail.com";
+  "guptacabserviceinfo@gmail.com";
 
 export const LOCATION =
   "Gangtok, East Sikkim";
