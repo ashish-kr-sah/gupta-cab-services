@@ -1,5 +1,11 @@
+
 import { useEffect, useRef, useState } from "react";
-import { FaChevronLeft, FaChevronRight, FaStar, FaTimes } from "react-icons/fa";
+import {
+  FaChevronLeft,
+  FaChevronRight,
+  FaStar,
+  FaTimes,
+} from "react-icons/fa";
 
 import { API } from "../../api";
 import {
@@ -10,7 +16,24 @@ import {
 
 import "./Reviews.css";
 
-// 3 cards on desktop, 2 on tablet, 1 on mobile
+const MAX_REVIEW_WORDS = 40;
+
+// Trim any review to a maximum of 40 words.
+const trimReview = (text = "") => {
+  const words = String(text).trim().split(/\s+/).filter(Boolean);
+
+  if (!text || words.length === 0) return "";
+
+  return words.length > MAX_REVIEW_WORDS
+    ? `${words.slice(0, MAX_REVIEW_WORDS).join(" ")}…`
+    : words.join(" ");
+};
+
+// Count words while a user types.
+const countWords = (text = "") =>
+  text.trim() ? text.trim().split(/\s+/).filter(Boolean).length : 0;
+
+// 3 cards on desktop, 2 on tablet, 1 on mobile.
 const getPerPage = () => {
   if (typeof window === "undefined") return 3;
 
@@ -20,14 +43,14 @@ const getPerPage = () => {
   return 3;
 };
 
-/* Shimmer card – same layout as a real review card */
+/* Loading skeleton */
 function ReviewSkeleton() {
   return (
     <div className="reviews-slider-card" aria-hidden="true">
       <div className="card quote sk-card">
         <div className="stars sk-stars">
-          {[...Array(5)].map((_, k) => (
-            <span key={k} className="sk sk-star" />
+          {[...Array(5)].map((_, index) => (
+            <span key={index} className="sk sk-star" />
           ))}
         </div>
 
@@ -39,7 +62,6 @@ function ReviewSkeleton() {
 
         <div className="who">
           <span className="sk sk-avatar" />
-
           <div>
             <span className="sk sk-name" />
           </div>
@@ -53,13 +75,14 @@ export default function Reviews({ limit }) {
   const [reviews, setReviews] = useState(
     () => readReviewsCache() || []
   );
-  const [loading, setLoading] = useState(() => !readReviewsCache());
+
+  const [loading, setLoading] = useState(
+    () => !readReviewsCache()
+  );
+
   const [failed, setFailed] = useState(false);
-
   const [perPage, setPerPage] = useState(getPerPage);
-
   const [currentPage, setCurrentPage] = useState(0);
-
   const [showModal, setShowModal] = useState(false);
 
   const [rating, setRating] = useState(5);
@@ -72,17 +95,16 @@ export default function Reviews({ limit }) {
 
   const touchStartX = useRef(null);
 
+  // Fetch reviews from the existing API.
   const loadReviews = async () => {
     try {
       setFailed(false);
 
       const list = await fetchReviews();
-
-      setReviews(list);
+      setReviews(Array.isArray(list) ? list : []);
     } catch (error) {
       console.error("Failed to load reviews:", error);
 
-      // keep showing saved reviews if we have them
       if (!readReviewsCache()) {
         setFailed(true);
       }
@@ -95,7 +117,7 @@ export default function Reviews({ limit }) {
     loadReviews();
   }, []);
 
-  // keep cards-per-page in sync with the screen size
+  // Keep the slider responsive.
   useEffect(() => {
     const update = () => setPerPage(getPerPage());
 
@@ -104,60 +126,58 @@ export default function Reviews({ limit }) {
     return () => window.removeEventListener("resize", update);
   }, []);
 
-  /*
-    Home:
-    latest 9 reviews
-
-    Testimonials:
-    all reviews
-  */
+  // Home displays limited reviews; Testimonials displays all.
   const visibleReviews = limit
     ? reviews.slice(0, limit)
     : reviews;
 
-  const reviewsPerPage = perPage;
-
   const totalPages = Math.ceil(
-    visibleReviews.length / reviewsPerPage
+    visibleReviews.length / perPage
   );
 
   const currentReviews = visibleReviews.slice(
-    currentPage * reviewsPerPage,
-    currentPage * reviewsPerPage + reviewsPerPage
+    currentPage * perPage,
+    currentPage * perPage + perPage
   );
 
   useEffect(() => {
-    if (currentPage >= totalPages && totalPages > 0) {
+    if (totalPages > 0 && currentPage >= totalPages) {
       setCurrentPage(totalPages - 1);
     }
   }, [currentPage, totalPages]);
 
   const handlePrevious = () => {
-    setCurrentPage((prev) =>
-      prev > 0 ? prev - 1 : totalPages - 1
+    if (totalPages < 2) return;
+
+    setCurrentPage((previous) =>
+      previous > 0 ? previous - 1 : totalPages - 1
     );
   };
 
   const handleNext = () => {
-    setCurrentPage((prev) =>
-      prev < totalPages - 1 ? prev + 1 : 0
+    if (totalPages < 2) return;
+
+    setCurrentPage((previous) =>
+      previous < totalPages - 1 ? previous + 1 : 0
     );
   };
 
-  const handleTouchStart = (e) => {
-    touchStartX.current = e.touches[0].clientX;
+  // Touch swipe for phones and tablets.
+  const handleTouchStart = (event) => {
+    touchStartX.current = event.touches[0].clientX;
   };
 
-  const handleTouchEnd = (e) => {
+  const handleTouchEnd = (event) => {
     if (touchStartX.current === null || totalPages < 2) return;
 
-    const diff = e.changedTouches[0].clientX - touchStartX.current;
+    const difference =
+      event.changedTouches[0].clientX - touchStartX.current;
 
     touchStartX.current = null;
 
-    if (Math.abs(diff) < 50) return;
+    if (Math.abs(difference) < 50) return;
 
-    if (diff < 0) handleNext();
+    if (difference < 0) handleNext();
     else handlePrevious();
   };
 
@@ -176,18 +196,36 @@ export default function Reviews({ limit }) {
 
     setShowModal(false);
     setMessage("");
-
     setRating(5);
     setName("");
     setPhone("");
     setReviewText("");
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleReviewChange = (event) => {
+    const input = event.target.value;
+    const words = input.trim().split(/\s+/).filter(Boolean);
+
+    // Do not allow more than 40 words.
+    if (words.length > MAX_REVIEW_WORDS) {
+      setReviewText(words.slice(0, MAX_REVIEW_WORDS).join(" "));
+    } else {
+      setReviewText(input);
+    }
+
+    setMessage("");
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     if (!name.trim() || !phone.trim() || !reviewText.trim()) {
       setMessage("Please fill all fields.");
+      return;
+    }
+
+    if (countWords(reviewText) > MAX_REVIEW_WORDS) {
+      setMessage("Your review must be 40 words or fewer.");
       return;
     }
 
@@ -209,7 +247,7 @@ export default function Reviews({ limit }) {
           name: name.trim(),
           phone: phone.trim(),
           rating,
-          review: reviewText.trim(),
+          review: trimReview(reviewText),
         }),
       });
 
@@ -221,29 +259,24 @@ export default function Reviews({ limit }) {
         );
       }
 
-      /*
-        New review is returned from backend.
-        Add it at the beginning so it appears immediately.
-      */
+      // Preserve the existing cache and instant-update behaviour.
       if (result.data) {
-        setReviews((prev) => {
-          const next = [
+        setReviews((previous) => {
+          const updated = [
             result.data,
-            ...prev.filter(
+            ...previous.filter(
               (item) => item.id !== result.data.id
             ),
           ];
 
-          writeReviewsCache(next);
-
-          return next;
+          writeReviewsCache(updated);
+          return updated;
         });
       } else {
         await loadReviews();
       }
 
       setCurrentPage(0);
-
       setMessage(
         "Thank you! Your review has been submitted successfully."
       );
@@ -253,7 +286,7 @@ export default function Reviews({ limit }) {
       setPhone("");
       setReviewText("");
 
-      setTimeout(() => {
+      window.setTimeout(() => {
         setShowModal(false);
         setMessage("");
       }, 1500);
@@ -261,8 +294,7 @@ export default function Reviews({ limit }) {
       console.error("Review submission error:", error);
 
       setMessage(
-        error.message ||
-          "Something went wrong. Please try again."
+        error.message || "Something went wrong. Please try again."
       );
     } finally {
       setSubmitting(false);
@@ -277,8 +309,8 @@ export default function Reviews({ limit }) {
         aria-label="Loading reviews"
       >
         <div className="reviews-slider-track">
-          {[...Array(perPage)].map((_, k) => (
-            <ReviewSkeleton key={k} />
+          {[...Array(perPage)].map((_, index) => (
+            <ReviewSkeleton key={index} />
           ))}
         </div>
       </div>
@@ -296,47 +328,46 @@ export default function Reviews({ limit }) {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              {currentReviews.map((item, i) => (
+              {currentReviews.map((item, index) => (
                 <div
                   className="reviews-slider-card"
-                  key={item.id}
+                  key={item.id ?? `${item.name}-${index}`}
                 >
-                  <div
+                  <article
                     className="card quote rv-in"
-                    style={{ animationDelay: `${i * 0.06}s` }}
+                    style={{ animationDelay: `${index * 0.06}s` }}
                   >
-                      <div
-                        className="stars"
-                        aria-label={`${item.rating} out of 5 stars`}
-                      >
-                        {[...Array(5)].map((_, k) => (
-                          <FaStar
-                            key={k}
-                            aria-hidden="true"
-                            style={{
-                              opacity:
-                                k < item.rating
-                                  ? 1
-                                  : 0.25,
-                            }}
-                          />
-                        ))}
-                      </div>
+                    <div
+                      className="stars"
+                      aria-label={`${item.rating} out of 5 stars`}
+                    >
+                      {[...Array(5)].map((_, starIndex) => (
+                        <FaStar
+                          key={starIndex}
+                          aria-hidden="true"
+                          style={{
+                            opacity:
+                              starIndex < Number(item.rating) ? 1 : 0.25,
+                          }}
+                        />
+                      ))}
+                    </div>
 
-                      <p>{item.review}</p>
+                    <p className="review-card-text">
+                      {trimReview(item.review)}
+                    </p>
 
-                      <div className="who">
-                        <i aria-hidden="true">
-                          {item.name
-                            ?.charAt(0)
-                            ?.toUpperCase()}
-                        </i>
+                    <div className="who">
+                      <i aria-hidden="true">
+                        {item.name?.trim()?.charAt(0)?.toUpperCase() || "G"}
+                      </i>
 
-                        <div>
-                          <b>{item.name}</b>
-                        </div>
+                      <div className="reviewer-details">
+                        <b>{item.name || "Guest"}</b>
+                        
                       </div>
                     </div>
+                  </article>
                 </div>
               ))}
             </div>
@@ -357,27 +388,22 @@ export default function Reviews({ limit }) {
                     {currentPage + 1} / {totalPages}
                   </span>
                 ) : (
-                <div className="reviews-slider-dots">
-                  {[...Array(totalPages)].map(
-                    (_, index) => (
+                  <div className="reviews-slider-dots">
+                    {[...Array(totalPages)].map((_, index) => (
                       <button
                         key={index}
                         type="button"
                         className={`reviews-slider-dot ${
-                          currentPage === index
-                            ? "active"
-                            : ""
+                          currentPage === index ? "active" : ""
                         }`}
-                        onClick={() =>
-                          setCurrentPage(index)
+                        onClick={() => setCurrentPage(index)}
+                        aria-label={`Go to review page ${index + 1}`}
+                        aria-current={
+                          currentPage === index ? "page" : undefined
                         }
-                        aria-label={`Go to review page ${
-                          index + 1
-                        }`}
                       />
-                    )
-                  )}
-                </div>
+                    ))}
+                  </div>
                 )}
 
                 <button
@@ -396,7 +422,6 @@ export default function Reviews({ limit }) {
             {failed ? (
               <>
                 <p>Reviews could not be loaded right now.</p>
-
                 <button
                   type="button"
                   className="write-review-btn"
@@ -428,10 +453,8 @@ export default function Reviews({ limit }) {
           role="dialog"
           aria-modal="true"
           aria-label="Write a Review"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) {
-              closeModal();
-            }
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget) closeModal();
           }}
         >
           <div className="review-modal">
@@ -446,93 +469,69 @@ export default function Reviews({ limit }) {
 
             <h3>Write a Review</h3>
 
-            <form
-              className="review-form"
-              onSubmit={handleSubmit}
-            >
+            <form className="review-form" onSubmit={handleSubmit}>
               <div className="review-form-group">
-                <label htmlFor="review-name">
-                  Your Name
-                </label>
-
+                <label htmlFor="review-name">Your Name</label>
                 <input
                   id="review-name"
                   type="text"
                   value={name}
-                  onChange={(e) =>
-                    setName(e.target.value)
-                  }
+                  onChange={(event) => setName(event.target.value)}
                   placeholder="Enter your name"
+                  autoComplete="name"
                   required
                 />
               </div>
 
               <div className="review-form-group">
-                <label htmlFor="review-phone">
-                  Phone Number
-                </label>
-
+                <label htmlFor="review-phone">Phone Number</label>
                 <input
                   id="review-phone"
                   type="tel"
                   value={phone}
-                  onChange={(e) =>
-                    setPhone(e.target.value)
-                  }
+                  onChange={(event) => setPhone(event.target.value)}
                   placeholder="Enter your phone number"
+                  autoComplete="tel"
                   required
                 />
               </div>
 
               <div className="review-form-group">
                 <label>Rating</label>
-
                 <div className="review-rating">
-                  {[1, 2, 3, 4, 5].map(
-                    (star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        className={
-                          star <= rating
-                            ? "active"
-                            : ""
-                        }
-                        onClick={() =>
-                          setRating(star)
-                        }
-                        aria-label={`${star} star${
-                          star > 1 ? "s" : ""
-                        }`}
-                      >
-                        <FaStar />
-                      </button>
-                    )
-                  )}
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <button
+                      key={star}
+                      type="button"
+                      className={star <= rating ? "active" : ""}
+                      onClick={() => setRating(star)}
+                      aria-label={`${star} star${star > 1 ? "s" : ""}`}
+                      aria-pressed={rating === star}
+                    >
+                      <FaStar />
+                    </button>
+                  ))}
                 </div>
               </div>
 
               <div className="review-form-group">
-                <label htmlFor="review-text">
-                  Your Review
-                </label>
-
+                <label htmlFor="review-text">Your Review</label>
                 <textarea
                   id="review-text"
                   value={reviewText}
-                  onChange={(e) =>
-                    setReviewText(e.target.value)
-                  }
-                  placeholder="Write your experience..."
+                  onChange={handleReviewChange}
+                  placeholder="Share your travel experience..."
+                  rows={5}
                   required
                 />
+
+                <small className="review-word-count">
+                  {countWords(reviewText)}/{MAX_REVIEW_WORDS} words
+                </small>
               </div>
 
               {message && (
-                <p
-                  className="review-form-message"
-                  aria-live="polite"
-                >
+                <p className="review-form-message" aria-live="polite">
                   {message}
                 </p>
               )}
@@ -542,9 +541,7 @@ export default function Reviews({ limit }) {
                 className="review-submit-btn"
                 disabled={submitting}
               >
-                {submitting
-                  ? "Submitting..."
-                  : "Submit Review"}
+                {submitting ? "Submitting..." : "Submit Review"}
               </button>
             </form>
           </div>
@@ -553,3 +550,4 @@ export default function Reviews({ limit }) {
     </>
   );
 }
+

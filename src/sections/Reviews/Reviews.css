@@ -450,3 +450,58 @@
     min-height: 65px;
   }
 }
+
+
+/* Taller, narrower testimonial cards */
+.reviews-slider-track {
+  grid-template-columns: repeat(3, minmax(0, 300px));
+  justify-content: center;
+  align-items: stretch;
+  gap: 28px;
+}
+
+.reviews-slider-card {
+  min-width: 0;
+  width: 100%;
+}
+
+.reviews-slider-card > .card {
+  width: 100%;
+  min-height: 420px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+}
+
+.reviews-slider-card .quote p {
+  line-height: 1.8;
+  overflow-wrap: break-word;
+}
+
+.reviews-slider-card .who {
+  margin-top: auto;
+  padding-top: 24px;
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .reviews-slider-track {
+    grid-template-columns: repeat(2, minmax(0, 300px));
+    gap: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .reviews-slider-track {
+    grid-template-columns: minmax(0, 320px);
+    gap: 18px;
+  }
+
+  .reviews-slider-card > .card {
+    min-height: 380px;
+    padding: 24px;
+  }
+}
+
