@@ -21,7 +21,7 @@ export default function Destinations() {
           id="popular-tours-title"
         />
 
-        <div className="grid g4">
+        <div className="grid g4 dest-grid">
           {POPULAR_DESTINATIONS.map((destination, i) => (
             <Reveal
               key={destination.name}

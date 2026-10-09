@@ -43,6 +43,83 @@
 
 
 /* =========================
+   Shimmer (loading skeleton)
+========================= */
+
+.sk {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0.07) 30%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0.07) 70%
+  );
+  background-size: 250% 100%;
+  animation: skShimmer 1.2s linear infinite;
+}
+
+.sk-card:hover {
+  transform: none;
+  border-color: var(--line);
+  box-shadow: none;
+}
+
+.sk-stars {
+  display: flex;
+  gap: 4px;
+  height: 26px;
+  align-items: center;
+}
+
+.sk-star {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+}
+
+.sk-lines {
+  display: grid;
+  height: 74px;
+  align-content: space-between;
+  margin-top: 10px;
+}
+
+.sk-line {
+  height: 14px;
+}
+
+.sk-line.short {
+  width: 62%;
+}
+
+.sk-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+.sk-name {
+  width: 110px;
+  height: 14px;
+}
+
+@keyframes skShimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk {
+    animation: none;
+  }
+}
+
+/* =========================
    Reviews Slider
 ========================= */
 
@@ -59,6 +136,53 @@
 
 .reviews-slider-card {
   min-width: 0;
+  display: flex;
+}
+
+.reviews-slider-card > .card {
+  width: 100%;
+  overflow-wrap: anywhere;
+}
+
+.quote:hover {
+  transform: none;
+}
+
+.rv-in {
+  animation: rvIn 0.45s ease-out both;
+}
+
+@keyframes rvIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reviews-slider-count {
+  min-width: 56px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.reviews-empty {
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  padding: 28px 0;
+  color: var(--muted);
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv-in {
+    animation: none;
+  }
 }
 
 .reviews-slider-controls {
@@ -294,12 +418,14 @@
   .reviews-slider-track {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
 }
 
 @media (max-width: 600px) {
   .reviews-slider-track {
     grid-template-columns: 1fr;
   }
+
 
   .review-modal {
     width: min(360px, 100%);

@@ -3,3 +3,16 @@
 .faq summary{cursor:pointer;font-weight:600;color:var(--ivory);list-style:none;display:flex;justify-content:space-between;gap:12px}
 .faq summary:after{content:"+";color:var(--gold);font-size:1.4rem}.faq details[open] summary:after{content:"–"}
 .faq p{color:var(--muted);margin-top:10px}
+
+.faq-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.faq-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:50px;font-weight:600;font-size:.85rem;border:2px solid var(--gold);min-height:42px;transition:.25s}
+.faq-call{background:linear-gradient(135deg,var(--gold),var(--gold2));color:var(--navy2)}
+.faq-book{background:transparent;color:var(--gold)}
+.faq-book:hover{background:var(--gold);color:var(--navy2)}
+.faq-call:hover{transform:translateY(-2px)}
+@media(max-width:520px){
+  .faq details{padding:16px 16px}
+  .faq summary{font-size:.95rem}
+  .faq-actions{flex-direction:column}
+  .faq-btn{width:100%}
+}

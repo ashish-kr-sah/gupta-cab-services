@@ -233,6 +233,10 @@ textarea:focus-visible {
 }
 
 .split img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
   border-radius: 26px;
   border: 2px solid var(--line);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.45);
@@ -258,6 +262,26 @@ textarea:focus-visible {
 @media (max-width: 850px) {
   .split {
     grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .split img {
+    max-height: 340px;
+    border-radius: 20px;
+  }
+
+  .section {
+    padding: 64px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .split img {
+    max-height: 260px;
+  }
+
+  .section {
+    padding: 52px 0;
   }
 }
 

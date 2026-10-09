@@ -1,5 +1,6 @@
 import PageHead from "../../components/PageHead/PageHead";
 import Reviews from "../../sections/Reviews/Reviews";
+import CtaBanner from "../../sections/CtaBanner/CtaBanner";
 
 export default function Testimonials() {
   return (
@@ -18,6 +19,8 @@ export default function Testimonials() {
           <Reviews />
         </div>
       </section>
+
+      <CtaBanner />
     </>
   );
 }

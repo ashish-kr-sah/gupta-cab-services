@@ -2,6 +2,7 @@ import { FaCheckCircle } from "react-icons/fa";
 
 import PageHead from "../../components/PageHead/PageHead";
 import Reveal from "../../components/Reveal/Reveal";
+import WhyChoose from "../../sections/WhyChoose/WhyChoose";
 
 const POINTS = [
   "Experienced local drivers",
@@ -71,6 +72,8 @@ export default function About() {
           </Reveal>
         </div>
       </section>
+
+      <WhyChoose />
     </>
   );
 }

@@ -2,7 +2,8 @@ import { lazy, Suspense } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import SiteLayout from "./components/SiteLayout/SiteLayout";
-
+import DataTable from "./components/DataTable/DataTable";
+import useAdminList from "./hooks/useAdminList";
 /* ==================== PUBLIC PAGES ==================== */
 
 const Home = lazy(() => import("./pages/Home/Home"));
@@ -69,7 +70,26 @@ const AdminLayout = lazy(() => import("./admin/AdminLayout/AdminLayout"));
 const Dashboard = lazy(() => import("./admin/Dashboard/Dashboard"));
 const Bookings = lazy(() => import("./admin/Bookings/Bookings"));
 const Contacts = lazy(() => import("./admin/Contacts/Contacts"));
-const Reviews = lazy(() => import("./admin/Reviews/AdminReviews"));
+function Reviews() {
+  const [rows, remove] = useAdminList("/admin/reviews");
+
+  return (
+    <>
+      <h1 className="admin-title">Reviews</h1>
+
+      <DataTable
+        rows={rows}
+        columns={[
+          ["Name", "name"],
+          ["Phone", "phone"],
+          ["Rating", "rating"],
+          ["Review", "review"],
+        ]}
+        onDelete={remove}
+      />
+    </>
+  );
+}
 
 /* ==================== AUTH GUARD ==================== */
 

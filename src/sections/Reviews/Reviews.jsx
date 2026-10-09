@@ -1,16 +1,62 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaChevronLeft, FaChevronRight, FaStar, FaTimes } from "react-icons/fa";
 
-import Reveal from "../../components/Reveal/Reveal";
+import { API } from "../../api";
+import {
+  fetchReviews,
+  readReviewsCache,
+  writeReviewsCache,
+} from "../../reviewsStore";
 
 import "./Reviews.css";
 
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5000";
+// 3 cards on desktop, 2 on tablet, 1 on mobile
+const getPerPage = () => {
+  if (typeof window === "undefined") return 3;
+
+  if (window.matchMedia("(max-width: 600px)").matches) return 1;
+  if (window.matchMedia("(max-width: 900px)").matches) return 2;
+
+  return 3;
+};
+
+/* Shimmer card – same layout as a real review card */
+function ReviewSkeleton() {
+  return (
+    <div className="reviews-slider-card" aria-hidden="true">
+      <div className="card quote sk-card">
+        <div className="stars sk-stars">
+          {[...Array(5)].map((_, k) => (
+            <span key={k} className="sk sk-star" />
+          ))}
+        </div>
+
+        <div className="sk-lines">
+          <span className="sk sk-line" />
+          <span className="sk sk-line" />
+          <span className="sk sk-line short" />
+        </div>
+
+        <div className="who">
+          <span className="sk sk-avatar" />
+
+          <div>
+            <span className="sk sk-name" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function Reviews({ limit }) {
-  const [reviews, setReviews] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [reviews, setReviews] = useState(
+    () => readReviewsCache() || []
+  );
+  const [loading, setLoading] = useState(() => !readReviewsCache());
+  const [failed, setFailed] = useState(false);
+
+  const [perPage, setPerPage] = useState(getPerPage);
 
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -24,25 +70,38 @@ export default function Reviews({ limit }) {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
 
-  const fetchReviews = async () => {
+  const touchStartX = useRef(null);
+
+  const loadReviews = async () => {
     try {
-      setLoading(true);
+      setFailed(false);
 
-      const response = await fetch(`${API_URL}/api/reviews`);
-      const result = await response.json();
+      const list = await fetchReviews();
 
-      if (result.success) {
-        setReviews(result.data || []);
-      }
+      setReviews(list);
     } catch (error) {
       console.error("Failed to load reviews:", error);
+
+      // keep showing saved reviews if we have them
+      if (!readReviewsCache()) {
+        setFailed(true);
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchReviews();
+    loadReviews();
+  }, []);
+
+  // keep cards-per-page in sync with the screen size
+  useEffect(() => {
+    const update = () => setPerPage(getPerPage());
+
+    window.addEventListener("resize", update);
+
+    return () => window.removeEventListener("resize", update);
   }, []);
 
   /*
@@ -56,10 +115,7 @@ export default function Reviews({ limit }) {
     ? reviews.slice(0, limit)
     : reviews;
 
-  /*
-    Show 3 reviews per slider page
-  */
-  const reviewsPerPage = 3;
+  const reviewsPerPage = perPage;
 
   const totalPages = Math.ceil(
     visibleReviews.length / reviewsPerPage
@@ -86,6 +142,28 @@ export default function Reviews({ limit }) {
     setCurrentPage((prev) =>
       prev < totalPages - 1 ? prev + 1 : 0
     );
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e) => {
+    if (touchStartX.current === null || totalPages < 2) return;
+
+    const diff = e.changedTouches[0].clientX - touchStartX.current;
+
+    touchStartX.current = null;
+
+    if (Math.abs(diff) < 50) return;
+
+    if (diff < 0) handleNext();
+    else handlePrevious();
+  };
+
+  const retry = () => {
+    setLoading(true);
+    loadReviews();
   };
 
   const openModal = () => {
@@ -122,7 +200,7 @@ export default function Reviews({ limit }) {
       setSubmitting(true);
       setMessage("");
 
-      const response = await fetch(`${API_URL}/api/reviews`, {
+      const response = await fetch(`${API}/api/reviews`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -148,14 +226,20 @@ export default function Reviews({ limit }) {
         Add it at the beginning so it appears immediately.
       */
       if (result.data) {
-        setReviews((prev) => [
-          result.data,
-          ...prev.filter(
-            (item) => item.id !== result.data.id
-          ),
-        ]);
+        setReviews((prev) => {
+          const next = [
+            result.data,
+            ...prev.filter(
+              (item) => item.id !== result.data.id
+            ),
+          ];
+
+          writeReviewsCache(next);
+
+          return next;
+        });
       } else {
-        await fetchReviews();
+        await loadReviews();
       }
 
       setCurrentPage(0);
@@ -187,9 +271,15 @@ export default function Reviews({ limit }) {
 
   if (loading) {
     return (
-      <div className="reviews-slider">
-        <div className="grid g3">
-          <p>Loading reviews...</p>
+      <div
+        className="reviews-slider"
+        aria-busy="true"
+        aria-label="Loading reviews"
+      >
+        <div className="reviews-slider-track">
+          {[...Array(perPage)].map((_, k) => (
+            <ReviewSkeleton key={k} />
+          ))}
         </div>
       </div>
     );
@@ -200,14 +290,21 @@ export default function Reviews({ limit }) {
       <div className="reviews-slider">
         {visibleReviews.length > 0 ? (
           <>
-            <div className="reviews-slider-track">
+            <div
+              className="reviews-slider-track"
+              key={currentPage}
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               {currentReviews.map((item, i) => (
                 <div
                   className="reviews-slider-card"
                   key={item.id}
                 >
-                  <Reveal delay={i * 0.08}>
-                    <div className="card quote">
+                  <div
+                    className="card quote rv-in"
+                    style={{ animationDelay: `${i * 0.06}s` }}
+                  >
                       <div
                         className="stars"
                         aria-label={`${item.rating} out of 5 stars`}
@@ -240,7 +337,6 @@ export default function Reviews({ limit }) {
                         </div>
                       </div>
                     </div>
-                  </Reveal>
                 </div>
               ))}
             </div>
@@ -256,6 +352,11 @@ export default function Reviews({ limit }) {
                   <FaChevronLeft />
                 </button>
 
+                {totalPages > 6 ? (
+                  <span className="reviews-slider-count">
+                    {currentPage + 1} / {totalPages}
+                  </span>
+                ) : (
                 <div className="reviews-slider-dots">
                   {[...Array(totalPages)].map(
                     (_, index) => (
@@ -277,6 +378,7 @@ export default function Reviews({ limit }) {
                     )
                   )}
                 </div>
+                )}
 
                 <button
                   type="button"
@@ -290,8 +392,22 @@ export default function Reviews({ limit }) {
             )}
           </>
         ) : (
-          <div className="grid g3">
-            <p>No reviews available yet.</p>
+          <div className="reviews-empty">
+            {failed ? (
+              <>
+                <p>Reviews could not be loaded right now.</p>
+
+                <button
+                  type="button"
+                  className="write-review-btn"
+                  onClick={retry}
+                >
+                  Try Again
+                </button>
+              </>
+            ) : (
+              <p>No reviews yet. Be the first to share your trip!</p>
+            )}
           </div>
         )}
       </div>

@@ -25,10 +25,41 @@ export const REVIEWS = [
   ["Vikram Jain", "Jaipur", "Excellent drivers who know every corner of Sikkim. Great photo stops too!"],
 ];
 
+// =========================================================
+// FAQ  (Home page + JSON-LD for Google rich results)
+// =========================================================
+
 export const FAQS = [
-  ["How do I book a cab?", "Use the Booking page or call/WhatsApp us. We confirm within 20 minutes."],
-  ["Do you provide airport & NJP pickup?", "Yes, Bagdogra Airport, NJP station and Siliguri pickup/drop are available 24×7."],
-  ["Do you run cabs outside Sikkim?", "Yes – Darjeeling, Kalimpong, North Bengal, Kolkata, Bihar, Jharkhand and all over India."],
-  ["Which cars are available?", "Sedan, SUV (Innova/Ertiga) and Tempo Traveller for groups."],
-  ["Is permit and tax included?", "Sikkim permit guidance is provided; our quote clearly lists all charges."],
+  [
+    "How do I book a cab?",
+    "Use the online booking page, or simply call / WhatsApp us. Share your pickup point, destination, date and number of travellers, and our team confirms your booking within 20 minutes.",
+  ],
+  [
+    "Do you provide Bagdogra Airport, NJP & Siliguri pickup?",
+    "Yes. Pickup and drop from Bagdogra Airport, New Jalpaiguri (NJP) station and Siliguri are available 24×7 for Gangtok, Darjeeling, Kalimpong and all other destinations.",
+  ],
+  [
+    "Which places in Sikkim do you cover?",
+    "We cover all of Sikkim – Gangtok, Tsomgo Lake, Nathula Pass, Lachung, Yumthang Valley, Zuluk, Pelling, Ravangla and Namchi – with sightseeing and complete tour cabs.",
+  ],
+  [
+    "Do you run cabs in Darjeeling, Kalimpong and North Bengal?",
+    "Yes. We provide cabs for Darjeeling, Kalimpong, Siliguri and the rest of North Bengal, including local sightseeing and transfers between Darjeeling, Kalimpong and Sikkim.",
+  ],
+  [
+    "Do you provide outstation cabs to Kolkata, Bihar and Jharkhand?",
+    "Yes. We run outstation trips to Kolkata, Patna, Bodh Gaya, Ranchi, Jamshedpur, Deoghar and all over India with experienced drivers.",
+  ],
+  [
+    "Which cars are available?",
+    "Sedan, SUV (Ertiga / Bolero), Toyota Innova / Crysta and Tempo Traveller for bigger groups. All cars are clean, well maintained and driven by experienced local drivers.",
+  ],
+  [
+    "Do I need a permit to travel in Sikkim?",
+    "Some areas such as Nathula Pass, Tsomgo Lake, Lachung, Yumthang and Zuluk need special permits. We guide you through the process, so just keep a valid photo ID ready.",
+  ],
+  [
+    "How do I know the cab fare?",
+    "Call, WhatsApp or fill the booking form with your route and dates. We send a clear quote with all charges included, so there are no hidden costs.",
+  ],
 ];

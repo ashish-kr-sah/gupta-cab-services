@@ -7,6 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 import App from "./App";
 import "./styles/base.css";
+import { prefetchReviews } from "./reviewsStore";
+
+// Start loading reviews immediately on pages that show them
+if (["/", "/testimonials"].includes(window.location.pathname)) {
+  prefetchReviews();
+}
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
